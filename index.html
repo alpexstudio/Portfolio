@@ -7,68 +7,65 @@
 <style>
   *{margin:0;padding:0;box-sizing:border-box;}
   :root{
-    --bg:#0d0d0d;
-    --bg2:#141414;
-    --bg3:#1a1a1a;
+    --bg:#080810;
+    --bg2:#0e0e1a;
+    --bg3:#12121f;
     --text:#f0f0f0;
-    --muted:#888;
-    --accent:#c8a96e;
-    --accent2:#a07840;
-    --border:#2a2a2a;
+    --muted:#777;
+    --accent:#6d28d9;
+    --accent-light:#8b5cf6;
+    --accent-glow:rgba(109,40,217,.35);
+    --border:#1e1e2e;
   }
   html{scroll-behavior:smooth;}
   body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden;}
 
+  /* CANVAS */
+  #particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
   /* NAV */
-  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(13,13,13,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
-  .nav-name{font-size:.95rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text);}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,16,0.8);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+  .nav-name{font-size:.95rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;}
   .nav-links{display:flex;gap:2.5rem;}
   .nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;}
-  .nav-links a:hover{color:var(--accent);}
+  .nav-links a:hover{color:var(--accent-light);}
 
   /* HERO */
-  #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 4rem;position:relative;overflow:hidden;}
-  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 70% 50%, rgba(200,169,110,.07) 0%, transparent 70%);pointer-events:none;}
-  .hero-label{font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;}
+  #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 4rem;position:relative;z-index:1;}
+  .hero-label{font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-light);margin-bottom:1.5rem;}
   .hero-title{font-size:clamp(3rem,8vw,7rem);font-weight:700;line-height:1;letter-spacing:-.02em;margin-bottom:1rem;}
-  .hero-title span{color:var(--accent);}
+  .hero-title span{color:var(--accent-light);text-shadow:0 0 40px var(--accent-glow);}
   .hero-roles{font-size:clamp(.8rem,1.5vw,1rem);letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:2.5rem;}
   .hero-roles span{color:var(--text);}
-  .hero-desc{max-width:520px;line-height:1.8;color:#aaa;font-size:.95rem;margin-bottom:3rem;}
-  .btn{display:inline-block;padding:.85rem 2.2rem;border:1px solid var(--accent);color:var(--accent);text-decoration:none;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;transition:all .3s;}
-  .btn:hover{background:var(--accent);color:#0d0d0d;}
+  .hero-desc{max-width:520px;line-height:1.8;color:#999;font-size:.95rem;margin-bottom:3rem;}
+  .btn{display:inline-block;padding:.85rem 2.2rem;border:1px solid var(--accent);color:var(--accent-light);text-decoration:none;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;transition:all .3s;position:relative;overflow:hidden;}
+  .btn::before{content:'';position:absolute;inset:0;background:var(--accent);transform:translateX(-100%);transition:transform .3s;z-index:-1;}
+  .btn:hover::before{transform:translateX(0);}
+  .btn:hover{color:#fff;}
   .hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--muted);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;}
-  .scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollAnim 2s ease-in-out infinite;}
+  .scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--accent-light),transparent);animation:scrollAnim 2s ease-in-out infinite;}
   @keyframes scrollAnim{0%,100%{opacity:0;transform:scaleY(0);transform-origin:top}50%{opacity:1;transform:scaleY(1)}}
+
+  /* SECTIONS */
+  section{position:relative;z-index:1;}
 
   /* FEATURED */
   #featured{padding:6rem 4rem;border-top:1px solid var(--border);}
-  .section-label{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;}
+  .section-label{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-light);margin-bottom:1rem;}
   .featured-card{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-top:2rem;}
-  .featured-img{width:100%;aspect-ratio:16/9;object-fit:cover;filter:grayscale(20%);}
+  .featured-img{width:100%;aspect-ratio:16/9;object-fit:cover;border:1px solid var(--border);filter:brightness(.9);}
   .featured-tag{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;}
   .featured-title{font-size:clamp(1.3rem,3vw,2rem);font-weight:600;line-height:1.3;margin-bottom:1rem;}
-  .featured-desc{color:#aaa;font-size:.9rem;line-height:1.75;margin-bottom:2rem;}
-
-  /* ABOUT */
-  #about{padding:6rem 4rem;background:var(--bg2);border-top:1px solid var(--border);}
-  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;margin-top:3rem;}
-  .about-heading{font-size:clamp(1.8rem,4vw,3rem);font-weight:700;line-height:1.15;letter-spacing:-.02em;}
-  .about-heading em{color:var(--accent);font-style:normal;}
-  .about-text{color:#aaa;font-size:.95rem;line-height:1.85;}
-  .about-text p+p{margin-top:1rem;}
-  .skills{margin-top:2.5rem;display:flex;flex-wrap:wrap;gap:.6rem;}
-  .skill{padding:.4rem 1rem;border:1px solid var(--border);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);transition:all .3s;}
-  .skill:hover{border-color:var(--accent);color:var(--accent);}
+  .featured-desc{color:#999;font-size:.9rem;line-height:1.75;margin-bottom:2rem;}
 
   /* PORTFOLIO */
   #portfolio{padding:6rem 4rem;border-top:1px solid var(--border);}
   .portfolio-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3.5rem;}
   .portfolio-title{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;letter-spacing:-.02em;}
   .project-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem;}
-  .project-item{background:var(--bg2);border:1px solid var(--border);cursor:pointer;transition:border-color .3s,transform .3s;overflow:hidden;}
-  .project-item:hover{border-color:var(--accent);transform:translateY(-4px);}
-  .project-item:hover .project-name{color:var(--accent);}
+  .project-item{background:var(--bg2);border:1px solid var(--border);cursor:pointer;transition:border-color .3s,transform .3s,box-shadow .3s;overflow:hidden;}
+  .project-item:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 8px 30px rgba(109,40,217,.2);}
+  .project-item:hover .project-name{color:var(--accent-light);}
   .project-img-wrap{width:100%;aspect-ratio:16/9;overflow:hidden;}
   .project-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
   .project-item:hover .project-img-wrap img{transform:scale(1.05);}
@@ -76,24 +73,34 @@
   .proj-num{font-size:.7rem;color:var(--muted);letter-spacing:.15em;margin-bottom:.4rem;}
   .project-name{font-size:1rem;font-weight:600;transition:color .3s;margin-bottom:.5rem;}
   .project-tags{font-size:.75rem;color:var(--muted);line-height:1.6;}
-  .proj-arrow{display:none;}
+
+  /* ABOUT */
+  #about{padding:6rem 4rem;background:var(--bg2);border-top:1px solid var(--border);}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;margin-top:3rem;}
+  .about-heading{font-size:clamp(1.8rem,4vw,3rem);font-weight:700;line-height:1.15;letter-spacing:-.02em;}
+  .about-heading em{color:var(--accent-light);font-style:normal;text-shadow:0 0 30px var(--accent-glow);}
+  .about-text{color:#999;font-size:.95rem;line-height:1.85;}
+  .about-text p+p{margin-top:1rem;}
+  .skills{margin-top:2.5rem;display:flex;flex-wrap:wrap;gap:.6rem;}
+  .skill{padding:.4rem 1rem;border:1px solid var(--border);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);transition:all .3s;}
+  .skill:hover{border-color:var(--accent);color:var(--accent-light);box-shadow:0 0 12px var(--accent-glow);}
 
   /* CONTACT */
   #contact{padding:8rem 4rem;background:var(--bg2);border-top:1px solid var(--border);text-align:center;}
-  .contact-pre{font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;}
+  .contact-pre{font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-light);margin-bottom:1.5rem;}
   .contact-heading{font-size:clamp(2rem,6vw,5rem);font-weight:700;letter-spacing:-.03em;margin-bottom:1.5rem;}
   .contact-sub{color:var(--muted);font-size:.95rem;margin-bottom:3rem;}
-  .contact-email{display:inline-block;font-size:clamp(.9rem,2vw,1.1rem);color:var(--accent);text-decoration:none;letter-spacing:.05em;border-bottom:1px solid var(--accent);padding-bottom:.2rem;margin-bottom:3rem;transition:opacity .3s;}
+  .contact-email{display:inline-block;font-size:clamp(.9rem,2vw,1.1rem);color:var(--accent-light);text-decoration:none;letter-spacing:.05em;border-bottom:1px solid var(--accent);padding-bottom:.2rem;margin-bottom:3rem;transition:opacity .3s;}
   .contact-email:hover{opacity:.7;}
   .social-links{display:flex;gap:2rem;justify-content:center;}
   .social-links a{color:var(--muted);text-decoration:none;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;transition:color .3s;}
-  .social-links a:hover{color:var(--accent);}
+  .social-links a:hover{color:var(--accent-light);}
 
   /* FOOTER */
-  footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+  footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;}
   footer span{font-size:.75rem;color:var(--muted);letter-spacing:.1em;}
 
-  /* ANIMATIONS */
+  /* FADE IN */
   .fade-in{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
   .fade-in.visible{opacity:1;transform:translateY(0);}
 
@@ -103,9 +110,6 @@
     .nav-links{gap:1.5rem;}
     #hero,#featured,#about,#portfolio,#contact{padding-left:1.5rem;padding-right:1.5rem;}
     .featured-card,.about-grid{grid-template-columns:1fr;}
-    .project-item{grid-template-columns:40px 1fr;gap:1rem;}
-    .project-tags,.proj-arrow{display:none;}
-    .project-img-wrap{display:none;}
     footer{padding:1.5rem;flex-direction:column;gap:.5rem;text-align:center;}
   }
   @media(max-width:600px){
@@ -116,7 +120,8 @@
 </head>
 <body>
 
-<!-- NAV -->
+<canvas id="particles"></canvas>
+
 <nav>
   <div class="nav-name">Alexander Kusnezow</div>
   <div class="nav-links">
@@ -126,9 +131,7 @@
   </div>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
-  <div class="hero-bg"></div>
   <div class="hero-label fade-in">Portfolio 2026</div>
   <h1 class="hero-title fade-in">Alexander<br><span>Kusnezow</span></h1>
   <div class="hero-roles fade-in">
@@ -142,7 +145,6 @@
   </div>
 </section>
 
-<!-- FEATURED -->
 <section id="featured">
   <div class="section-label fade-in">Aktuelles Projekt</div>
   <div class="featured-card fade-in">
@@ -156,14 +158,12 @@
   </div>
 </section>
 
-<!-- PORTFOLIO -->
 <section id="portfolio">
   <div class="portfolio-header fade-in">
     <h2 class="portfolio-title">Mein Portfolio</h2>
     <span style="color:var(--muted);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;">5 Kategorien</span>
   </div>
   <div class="project-list">
-
     <div class="project-item fade-in">
       <div class="project-img-wrap"><img src="media/immersive/thumbnail.png" alt="Immersive Welten"/></div>
       <div class="project-card-body">
@@ -172,7 +172,6 @@
         <div class="project-tags">VR-Experiences · 3D-Kuppelprojekte · Interaktives Storytelling</div>
       </div>
     </div>
-
     <div class="project-item fade-in">
       <div class="project-img-wrap"><img src="media/3d/audi-hdri-blackbars.png" alt="3D Design"/></div>
       <div class="project-card-body">
@@ -181,7 +180,6 @@
         <div class="project-tags">Environment Design · Asset Creation · Charakter-Animation</div>
       </div>
     </div>
-
     <div class="project-item fade-in">
       <div class="project-img-wrap"><img src="media/elearning/184.jpg" alt="E-Learning"/></div>
       <div class="project-card-body">
@@ -190,7 +188,6 @@
         <div class="project-tags">Erklärvideos · YouTube-Produktion · Micro-Learning</div>
       </div>
     </div>
-
     <div class="project-item fade-in">
       <div class="project-img-wrap"><img src="media/mediengestaltung/smafi/0018.png" alt="Mediengestaltung"/></div>
       <div class="project-card-body">
@@ -199,7 +196,6 @@
         <div class="project-tags">UX/UI Design · Grafikdesign · Brand Identity</div>
       </div>
     </div>
-
     <div class="project-item fade-in">
       <div class="project-img-wrap"><img src="media/steam/snake2.png" alt="Steam Artworks"/></div>
       <div class="project-card-body">
@@ -208,11 +204,9 @@
         <div class="project-tags">Community Design · Profil-Animationen · Digital Art</div>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="section-label fade-in">Über mich</div>
   <div class="about-grid">
@@ -221,7 +215,7 @@
     </div>
     <div class="fade-in">
       <div class="about-text">
-        <p>Ich bin Digital Creator & 3D-Artist mit einer Leidenschaft für immersive Medien und modernes E-Learning. Ob interaktive 3D-Welten, virtuelle Rekonstruktionen oder didaktisch aufbereiteter Video-Content – ich verbinde technisches Know-how mit kreativem Storytelling, um Wissen erlebbar zu machen.</p>
+        <p>Ich bin Digital Creator & 3D-Artist mit einer Leidenschaft für immersive Medien und modernes E-Learning. Ob interaktive 3D-Welten, virtuelle Rekonstruktionen oder didaktisch aufbereiteter Video-Content – ich verbinde technisches Know-how mit kreativem Storytelling.</p>
         <p>Studiert an der TH Lübeck. Erfahrung in der Entwicklung mit Unreal Engine & Unity, 3D-Modellierung in Blender sowie E-Learning-Produktion bei der Plakos GmbH.</p>
       </div>
       <div class="skills">
@@ -240,12 +234,11 @@
   </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact">
   <div class="contact-pre fade-in">Kontakt</div>
   <h2 class="contact-heading fade-in">Lass uns zusammenarbeiten.</h2>
   <p class="contact-sub fade-in">Offen für Projekte, Kollaborationen und neue Möglichkeiten.</p>
-  <a href="mailto:alexander.kusnezow@example.com" class="contact-email fade-in">alexander.kusnezow@mail.de</a>
+  <a href="mailto:alexander.kusnezow@mail.de" class="contact-email fade-in">alexander.kusnezow@mail.de</a>
   <div class="social-links fade-in">
     <a href="#">LinkedIn</a>
     <a href="#">Behance</a>
@@ -254,22 +247,88 @@
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <span>© 2026 Alexander Kusnezow</span>
   <span>3D-Artist · XR-Developer · E-Learning Designer</span>
 </footer>
 
 <script>
-  // Fade-in on scroll
-  const obs = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
-  },{threshold:.12});
-  document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+  // PARTICLES
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
 
-  // Stagger hero elements
-  document.querySelectorAll('#hero .fade-in').forEach((el,i)=>{
-    el.style.transitionDelay=`${i*0.12}s`;
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function rand(min, max) { return Math.random() * (max - min) + min; }
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = rand(0, W);
+      this.y = rand(0, H);
+      this.r = rand(.5, 2.2);
+      this.vx = rand(-.3, .3);
+      this.vy = rand(-.5, -.1);
+      this.alpha = rand(.1, .6);
+      this.life = rand(0.005, 0.012);
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.alpha -= this.life;
+      if (this.alpha <= 0 || this.y < -10) this.reset();
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(139,92,246,${this.alpha})`;
+      ctx.fill();
+    }
+  }
+
+  // connection lines
+  function drawConnections() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          const a = (1 - dist/120) * .08;
+          ctx.strokeStyle = `rgba(109,40,217,${a})`;
+          ctx.lineWidth = .5;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  for (let i = 0; i < 120; i++) particles.push(new Particle());
+
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    drawConnections();
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // FADE IN
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: .12 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+  document.querySelectorAll('#hero .fade-in').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 0.12}s`;
   });
 </script>
 </body>
