@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Alexander Kusnezow | Portfolio</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --bg:#0d0d0d;
+    --bg2:#141414;
+    --bg3:#1a1a1a;
+    --text:#f0f0f0;
+    --muted:#888;
+    --accent:#c8a96e;
+    --accent2:#a07840;
+    --border:#2a2a2a;
+  }
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden;}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(13,13,13,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+  .nav-name{font-size:.95rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text);}
+  .nav-links{display:flex;gap:2.5rem;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;}
+  .nav-links a:hover{color:var(--accent);}
+
+  /* HERO */
+  #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 4rem;position:relative;overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 70% 50%, rgba(200,169,110,.07) 0%, transparent 70%);pointer-events:none;}
+  .hero-label{font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;}
+  .hero-title{font-size:clamp(3rem,8vw,7rem);font-weight:700;line-height:1;letter-spacing:-.02em;margin-bottom:1rem;}
+  .hero-title span{color:var(--accent);}
+  .hero-roles{font-size:clamp(.8rem,1.5vw,1rem);letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:2.5rem;}
+  .hero-roles span{color:var(--text);}
+  .hero-desc{max-width:520px;line-height:1.8;color:#aaa;font-size:.95rem;margin-bottom:3rem;}
+  .btn{display:inline-block;padding:.85rem 2.2rem;border:1px solid var(--accent);color:var(--accent);text-decoration:none;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;transition:all .3s;}
+  .btn:hover{background:var(--accent);color:#0d0d0d;}
+  .hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--muted);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;}
+  .scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollAnim 2s ease-in-out infinite;}
+  @keyframes scrollAnim{0%,100%{opacity:0;transform:scaleY(0);transform-origin:top}50%{opacity:1;transform:scaleY(1)}}
+
+  /* FEATURED */
+  #featured{padding:6rem 4rem;border-top:1px solid var(--border);}
+  .section-label{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;}
+  .featured-card{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-top:2rem;}
+  .featured-img{width:100%;aspect-ratio:16/9;object-fit:cover;filter:grayscale(20%);}
+  .featured-tag{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;}
+  .featured-title{font-size:clamp(1.3rem,3vw,2rem);font-weight:600;line-height:1.3;margin-bottom:1rem;}
+  .featured-desc{color:#aaa;font-size:.9rem;line-height:1.75;margin-bottom:2rem;}
+
+  /* ABOUT */
+  #about{padding:6rem 4rem;background:var(--bg2);border-top:1px solid var(--border);}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;margin-top:3rem;}
+  .about-heading{font-size:clamp(1.8rem,4vw,3rem);font-weight:700;line-height:1.15;letter-spacing:-.02em;}
+  .about-heading em{color:var(--accent);font-style:normal;}
+  .about-text{color:#aaa;font-size:.95rem;line-height:1.85;}
+  .about-text p+p{margin-top:1rem;}
+  .skills{margin-top:2.5rem;display:flex;flex-wrap:wrap;gap:.6rem;}
+  .skill{padding:.4rem 1rem;border:1px solid var(--border);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);transition:all .3s;}
+  .skill:hover{border-color:var(--accent);color:var(--accent);}
+
+  /* PORTFOLIO */
+  #portfolio{padding:6rem 4rem;border-top:1px solid var(--border);}
+  .portfolio-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3.5rem;}
+  .portfolio-title{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;letter-spacing:-.02em;}
+  .project-list{display:flex;flex-direction:column;gap:0;}
+  .project-item{display:grid;grid-template-columns:80px 1fr 340px 120px;gap:2rem;align-items:center;padding:2rem 0;border-top:1px solid var(--border);cursor:pointer;transition:background .2s;position:relative;}
+  .project-item:last-child{border-bottom:1px solid var(--border);}
+  .project-item:hover .project-img-wrap{opacity:1;transform:scale(1);}
+  .project-item:hover .project-name{color:var(--accent);}
+  .proj-num{font-size:.75rem;color:var(--muted);letter-spacing:.1em;}
+  .project-name{font-size:clamp(1rem,2vw,1.3rem);font-weight:600;transition:color .3s;}
+  .project-tags{font-size:.78rem;color:var(--muted);line-height:1.6;}
+  .proj-arrow{text-align:right;color:var(--muted);font-size:1.2rem;transition:transform .3s;}
+  .project-item:hover .proj-arrow{transform:translateX(6px);color:var(--accent);}
+  .project-img-wrap{position:absolute;right:160px;top:50%;transform:translateY(-50%) scale(.95);opacity:0;transition:all .4s;pointer-events:none;z-index:10;}
+  .project-img-wrap img{width:260px;aspect-ratio:16/9;object-fit:cover;border:1px solid var(--border);}
+
+  /* CONTACT */
+  #contact{padding:8rem 4rem;background:var(--bg2);border-top:1px solid var(--border);text-align:center;}
+  .contact-pre{font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;}
+  .contact-heading{font-size:clamp(2rem,6vw,5rem);font-weight:700;letter-spacing:-.03em;margin-bottom:1.5rem;}
+  .contact-sub{color:var(--muted);font-size:.95rem;margin-bottom:3rem;}
+  .contact-email{display:inline-block;font-size:clamp(.9rem,2vw,1.1rem);color:var(--accent);text-decoration:none;letter-spacing:.05em;border-bottom:1px solid var(--accent);padding-bottom:.2rem;margin-bottom:3rem;transition:opacity .3s;}
+  .contact-email:hover{opacity:.7;}
+  .social-links{display:flex;gap:2rem;justify-content:center;}
+  .social-links a{color:var(--muted);text-decoration:none;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;transition:color .3s;}
+  .social-links a:hover{color:var(--accent);}
+
+  /* FOOTER */
+  footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+  footer span{font-size:.75rem;color:var(--muted);letter-spacing:.1em;}
+
+  /* ANIMATIONS */
+  .fade-in{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
+  .fade-in.visible{opacity:1;transform:translateY(0);}
+
+  /* RESPONSIVE */
+  @media(max-width:900px){
+    nav{padding:1rem 1.5rem;}
+    .nav-links{gap:1.5rem;}
+    #hero,#featured,#about,#portfolio,#contact{padding-left:1.5rem;padding-right:1.5rem;}
+    .featured-card,.about-grid{grid-template-columns:1fr;}
+    .project-item{grid-template-columns:40px 1fr;gap:1rem;}
+    .project-tags,.proj-arrow{display:none;}
+    .project-img-wrap{display:none;}
+    footer{padding:1.5rem;flex-direction:column;gap:.5rem;text-align:center;}
+  }
+  @media(max-width:600px){
+    .nav-links{display:none;}
+    .hero-title{font-size:2.8rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-name">Alexander Kusnezow</div>
+  <div class="nav-links">
+    <a href="#portfolio">Portfolio</a>
+    <a href="#about">Über mich</a>
+    <a href="#contact">Kontakt</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-label fade-in">Portfolio 2026</div>
+  <h1 class="hero-title fade-in">Alexander<br><span>Kusnezow</span></h1>
+  <div class="hero-roles fade-in">
+    <span>3D-Artist</span> &nbsp;·&nbsp; <span>XR-Developer</span> &nbsp;·&nbsp; <span>E-Learning Designer</span>
+  </div>
+  <p class="hero-desc fade-in">Digital Creator mit einer Leidenschaft für immersive Medien und modernes E-Learning. Ich verbinde technisches Know-how mit kreativem Storytelling.</p>
+  <a href="#portfolio" class="btn fade-in">Projekte ansehen</a>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section id="featured">
+  <div class="section-label fade-in">Aktuelles Projekt</div>
+  <div class="featured-card fade-in">
+    <img class="featured-img" src="https://static.wixstatic.com/media/c624a0_d6676354a2714b79a39745a01c648f13~mv2.png/v1/crop/x_0,y_54,w_1024,h_659/fill/w_784,h_441,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Thumbnail.png" alt="Roggenbuk Projekt"/>
+    <div>
+      <div class="featured-tag">VR · Blended Learning</div>
+      <h2 class="featured-title">Die Sage vom Roggenbuk</h2>
+      <p class="featured-desc">VR-Storytelling & Blended Learning: Ein immersives Erlebnis, das historisches Sagenwissen durch moderne XR-Technologie erlebbar macht – entwickelt als Bachelorarbeit.</p>
+      <a href="#portfolio" class="btn">Mehr erfahren</a>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="portfolio-header fade-in">
+    <h2 class="portfolio-title">Mein Portfolio</h2>
+    <span style="color:var(--muted);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;">5 Kategorien</span>
+  </div>
+  <div class="project-list">
+
+    <div class="project-item fade-in">
+      <span class="proj-num">01</span>
+      <div>
+        <div class="project-name">Immersive Welten & Filme</div>
+      </div>
+      <div class="project-tags">VR-Experiences · 3D-Kuppelprojekte · Interaktives Storytelling</div>
+      <div class="proj-arrow">→</div>
+      <div class="project-img-wrap">
+        <img src="https://static.wixstatic.com/media/c624a0_af3f06983a364c7e8629d56bacf3cbb8~mv2.png/v1/fill/w_784,h_441,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/0691.png" alt="Immersive Welten"/>
+      </div>
+    </div>
+
+    <div class="project-item fade-in">
+      <span class="proj-num">02</span>
+      <div>
+        <div class="project-name">3D Design & Modellierung</div>
+      </div>
+      <div class="project-tags">Environment Design · Asset Creation · Charakter-Animation</div>
+      <div class="proj-arrow">→</div>
+      <div class="project-img-wrap">
+        <img src="https://static.wixstatic.com/media/c624a0_ddacd4254072435dbdd3c9c8e7285fdf~mv2.png/v1/fill/w_784,h_441,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/audi%20hdri%20bearbeitet%20blackbars.png" alt="3D Design"/>
+      </div>
+    </div>
+
+    <div class="project-item fade-in">
+      <span class="proj-num">03</span>
+      <div>
+        <div class="project-name">E-Learning & Content Creation</div>
+      </div>
+      <div class="project-tags">Erklärvideos · YouTube-Produktion · Micro-Learning</div>
+      <div class="proj-arrow">→</div>
+      <div class="project-img-wrap">
+        <img src="https://static.wixstatic.com/media/c624a0_9496326a10ba46d997869658631e4c01~mv2.jpg/v1/fill/w_784,h_327,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/vyond_edited.jpg" alt="E-Learning"/>
+      </div>
+    </div>
+
+    <div class="project-item fade-in">
+      <span class="proj-num">04</span>
+      <div>
+        <div class="project-name">Mediengestaltung</div>
+      </div>
+      <div class="project-tags">UX/UI Design · Grafikdesign · Brand Identity</div>
+      <div class="proj-arrow">→</div>
+      <div class="project-img-wrap">
+        <img src="https://static.wixstatic.com/media/c624a0_d0853604fc964acebedd41ed1a5cd135~mv2.png/v1/fill/w_784,h_441,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/0003.png" alt="Mediengestaltung"/>
+      </div>
+    </div>
+
+    <div class="project-item fade-in">
+      <span class="proj-num">05</span>
+      <div>
+        <div class="project-name">Steam Artworks</div>
+      </div>
+      <div class="project-tags">Community Design · Profil-Animationen · Digital Art</div>
+      <div class="proj-arrow">→</div>
+      <div class="project-img-wrap">
+        <img src="https://static.wixstatic.com/media/c624a0_2fde46c471e140b8ae910467297547f8~mv2.png/v1/fill/w_784,h_459,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Screenshot%202026-03-26%20145448.png" alt="Steam Artworks"/>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label fade-in">Über mich</div>
+  <div class="about-grid">
+    <div class="fade-in">
+      <h2 class="about-heading">Digital Creator.<br><em>Storyteller.</em><br>3D-Artist.</h2>
+    </div>
+    <div class="fade-in">
+      <div class="about-text">
+        <p>Ich bin Digital Creator & 3D-Artist mit einer Leidenschaft für immersive Medien und modernes E-Learning. Ob interaktive 3D-Welten, virtuelle Rekonstruktionen oder didaktisch aufbereiteter Video-Content – ich verbinde technisches Know-how mit kreativem Storytelling, um Wissen erlebbar zu machen.</p>
+        <p>Studiert an der TH Lübeck. Erfahrung in der Entwicklung mit Unreal Engine & Unity, 3D-Modellierung in Blender sowie E-Learning-Produktion bei der Plakos GmbH.</p>
+      </div>
+      <div class="skills">
+        <span class="skill">Blender</span>
+        <span class="skill">Unreal Engine</span>
+        <span class="skill">Unity</span>
+        <span class="skill">Adobe CC</span>
+        <span class="skill">Premiere Pro</span>
+        <span class="skill">Vyond</span>
+        <span class="skill">UX/UI</span>
+        <span class="skill">VR/XR</span>
+        <span class="skill">3D-Modellierung</span>
+        <span class="skill">E-Learning</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-pre fade-in">Kontakt</div>
+  <h2 class="contact-heading fade-in">Lass uns zusammenarbeiten.</h2>
+  <p class="contact-sub fade-in">Offen für Projekte, Kollaborationen und neue Möglichkeiten.</p>
+  <a href="mailto:alexander.kusnezow@example.com" class="contact-email fade-in">alexander.kusnezow@mail.de</a>
+  <div class="social-links fade-in">
+    <a href="#">LinkedIn</a>
+    <a href="#">Behance</a>
+    <a href="#">GitHub</a>
+    <a href="#">Steam</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Alexander Kusnezow</span>
+  <span>3D-Artist · XR-Developer · E-Learning Designer</span>
+</footer>
+
+<script>
+  // Fade-in on scroll
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+  },{threshold:.12});
+  document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+  // Stagger hero elements
+  document.querySelectorAll('#hero .fade-in').forEach((el,i)=>{
+    el.style.transitionDelay=`${i*0.12}s`;
+  });
+</script>
+</body>
+</html>
