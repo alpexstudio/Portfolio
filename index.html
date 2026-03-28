@@ -65,18 +65,18 @@
   #portfolio{padding:6rem 4rem;border-top:1px solid var(--border);}
   .portfolio-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3.5rem;}
   .portfolio-title{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;letter-spacing:-.02em;}
-  .project-list{display:flex;flex-direction:column;gap:0;}
-  .project-item{display:grid;grid-template-columns:80px 1fr 340px 120px;gap:2rem;align-items:center;padding:2rem 0;border-top:1px solid var(--border);cursor:pointer;transition:background .2s;position:relative;}
-  .project-item:last-child{border-bottom:1px solid var(--border);}
-  .project-item:hover .project-img-wrap{opacity:1;transform:scale(1);}
+  .project-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem;}
+  .project-item{background:var(--bg2);border:1px solid var(--border);cursor:pointer;transition:border-color .3s,transform .3s;overflow:hidden;}
+  .project-item:hover{border-color:var(--accent);transform:translateY(-4px);}
   .project-item:hover .project-name{color:var(--accent);}
-  .proj-num{font-size:.75rem;color:var(--muted);letter-spacing:.1em;}
-  .project-name{font-size:clamp(1rem,2vw,1.3rem);font-weight:600;transition:color .3s;}
-  .project-tags{font-size:.78rem;color:var(--muted);line-height:1.6;}
-  .proj-arrow{text-align:right;color:var(--muted);font-size:1.2rem;transition:transform .3s;}
-  .project-item:hover .proj-arrow{transform:translateX(6px);color:var(--accent);}
-  .project-img-wrap{position:absolute;right:200px;top:50%;transform:translateY(-50%) scale(.95);opacity:0;transition:all .4s;pointer-events:none;z-index:10;}
-  .project-img-wrap img{width:180px;aspect-ratio:16/9;object-fit:cover;border:1px solid var(--border);}
+  .project-img-wrap{width:100%;aspect-ratio:16/9;overflow:hidden;}
+  .project-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+  .project-item:hover .project-img-wrap img{transform:scale(1.05);}
+  .project-card-body{padding:1.2rem 1.5rem 1.5rem;}
+  .proj-num{font-size:.7rem;color:var(--muted);letter-spacing:.15em;margin-bottom:.4rem;}
+  .project-name{font-size:1rem;font-weight:600;transition:color .3s;margin-bottom:.5rem;}
+  .project-tags{font-size:.75rem;color:var(--muted);line-height:1.6;}
+  .proj-arrow{display:none;}
 
   /* CONTACT */
   #contact{padding:8rem 4rem;background:var(--bg2);border-top:1px solid var(--border);text-align:center;}
@@ -165,62 +165,47 @@
   <div class="project-list">
 
     <div class="project-item fade-in">
-      <span class="proj-num">01</span>
-      <div>
+      <div class="project-img-wrap"><img src="media/immersive/thumbnail.png" alt="Immersive Welten"/></div>
+      <div class="project-card-body">
+        <div class="proj-num">01</div>
         <div class="project-name">Immersive Welten & Filme</div>
-      </div>
-      <div class="project-tags">VR-Experiences · 3D-Kuppelprojekte · Interaktives Storytelling</div>
-      <div class="proj-arrow">→</div>
-      <div class="project-img-wrap">
-        <img src="media/immersive/thumbnail.png" alt="Immersive Welten"/>
+        <div class="project-tags">VR-Experiences · 3D-Kuppelprojekte · Interaktives Storytelling</div>
       </div>
     </div>
 
     <div class="project-item fade-in">
-      <span class="proj-num">02</span>
-      <div>
+      <div class="project-img-wrap"><img src="media/3d/audi-hdri-blackbars.png" alt="3D Design"/></div>
+      <div class="project-card-body">
+        <div class="proj-num">02</div>
         <div class="project-name">3D Design & Modellierung</div>
-      </div>
-      <div class="project-tags">Environment Design · Asset Creation · Charakter-Animation</div>
-      <div class="proj-arrow">→</div>
-      <div class="project-img-wrap">
-        <img src="media/3d/audi-hdri-blackbars.png" alt="3D Design"/>
+        <div class="project-tags">Environment Design · Asset Creation · Charakter-Animation</div>
       </div>
     </div>
 
     <div class="project-item fade-in">
-      <span class="proj-num">03</span>
-      <div>
+      <div class="project-img-wrap"><img src="media/elearning/184.jpg" alt="E-Learning"/></div>
+      <div class="project-card-body">
+        <div class="proj-num">03</div>
         <div class="project-name">E-Learning & Content Creation</div>
-      </div>
-      <div class="project-tags">Erklärvideos · YouTube-Produktion · Micro-Learning</div>
-      <div class="proj-arrow">→</div>
-      <div class="project-img-wrap">
-        <img src="media/elearning/184.jpg" alt="E-Learning"/>
+        <div class="project-tags">Erklärvideos · YouTube-Produktion · Micro-Learning</div>
       </div>
     </div>
 
     <div class="project-item fade-in">
-      <span class="proj-num">04</span>
-      <div>
+      <div class="project-img-wrap"><img src="media/mediengestaltung/smafi/0018.png" alt="Mediengestaltung"/></div>
+      <div class="project-card-body">
+        <div class="proj-num">04</div>
         <div class="project-name">Mediengestaltung</div>
-      </div>
-      <div class="project-tags">UX/UI Design · Grafikdesign · Brand Identity</div>
-      <div class="proj-arrow">→</div>
-      <div class="project-img-wrap">
-        <img src="media/mediengestaltung/smafi/0018.png" alt="Mediengestaltung"/>
+        <div class="project-tags">UX/UI Design · Grafikdesign · Brand Identity</div>
       </div>
     </div>
 
     <div class="project-item fade-in">
-      <span class="proj-num">05</span>
-      <div>
+      <div class="project-img-wrap"><img src="media/steam/snake2.png" alt="Steam Artworks"/></div>
+      <div class="project-card-body">
+        <div class="proj-num">05</div>
         <div class="project-name">Steam Artworks</div>
-      </div>
-      <div class="project-tags">Community Design · Profil-Animationen · Digital Art</div>
-      <div class="proj-arrow">→</div>
-      <div class="project-img-wrap">
-        <img src="media/steam/snake2.png" alt="Steam Artworks"/>
+        <div class="project-tags">Community Design · Profil-Animationen · Digital Art</div>
       </div>
     </div>
 
