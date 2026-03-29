@@ -49,9 +49,7 @@
   .overlay-icon{width:40px;height:40px;border-radius:50%;background:rgba(109,40,217,.8);display:flex;align-items:center;justify-content:center;border:1px solid var(--accent-light);}
   .overlay-icon svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;}
 
-  /* size variations - only column span, aspect ratio maintained */
-  .g-wide{grid-column:span 2;}
-  .g-big{grid-column:span 3;}
+  .g-wide,.g-big,.g-tall{grid-column:span 1;grid-row:span 1;}
 
   /* LIGHTBOX */
   .lightbox{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.92);backdrop-filter:blur(10px);align-items:center;justify-content:center;}
