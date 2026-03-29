@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mediengestaltung | Alexander Kusnezow</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{--bg:#080810;--bg2:#0e0e1a;--text:#f0f0f0;--muted:#777;--accent:#6d28d9;--accent-light:#8b5cf6;--accent-glow:rgba(109,40,217,.35);--border:#1e1e2e;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden;}
+  #particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,16,0.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+  .nav-name{font-size:.95rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;color:var(--text);}
+  .nav-links{display:flex;gap:2rem;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;white-space:nowrap;}
+  .nav-links a:hover{color:var(--accent-light);}
+
+  header{position:relative;z-index:1;padding:10rem 4rem 5rem;text-align:center;border-bottom:1px solid var(--border);}
+  .back-link{display:inline-flex;align-items:center;gap:.5rem;color:var(--muted);text-decoration:none;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2rem;transition:color .3s;}
+  .back-link:hover{color:var(--accent-light);}
+  .page-label{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-light);margin-bottom:1rem;}
+  .page-title{font-size:clamp(2rem,6vw,4.5rem);font-weight:700;letter-spacing:-.02em;}
+
+  /* SECTIONS */
+  .project-section{position:relative;z-index:1;padding:6rem 4rem;border-top:1px solid var(--border);max-width:1400px;margin:0 auto;}
+  .section-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.5rem;}
+  .section-num{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-light);margin-bottom:.5rem;}
+  .section-title{font-size:clamp(1.5rem,3vw,2.5rem);font-weight:700;letter-spacing:-.02em;}
+  .section-desc{color:var(--muted);font-size:.88rem;max-width:500px;line-height:1.7;margin-top:.6rem;}
+  .slide-count{font-size:.78rem;color:var(--muted);letter-spacing:.1em;}
+
+  /* SLIDER */
+  .slider-wrap{position:relative;}
+  .slider{display:flex;gap:1rem;overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;padding-bottom:.5rem;}
+  .slider::-webkit-scrollbar{display:none;}
+  .slide{flex-shrink:0;width:calc(33.333% - .67rem);border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:border-color .3s,box-shadow .3s;}
+  .slide:hover{border-color:var(--accent);box-shadow:0 8px 30px rgba(109,40,217,.2);}
+  .slide img{width:100%;display:block;transition:transform .4s;}
+  .slide:hover img{transform:scale(1.04);}
+  .slider-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(109,40,217,.8);border:none;color:#fff;font-size:1.4rem;cursor:pointer;padding:.5rem .9rem;z-index:10;transition:background .2s;border:1px solid var(--accent-light);}
+  .slider-btn:hover{background:var(--accent);}
+  .slider-btn.prev{left:-1.5rem;}
+  .slider-btn.next{right:-1.5rem;}
+
+  /* LIGHTBOX */
+  .modal{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.92);backdrop-filter:blur(10px);align-items:center;justify-content:center;}
+  .modal.open{display:flex;}
+  .modal-inner{position:relative;max-width:90vw;max-height:90vh;}
+  .modal-inner img{max-width:90vw;max-height:90vh;object-fit:contain;border:1px solid var(--border);}
+  .modal-close{position:absolute;top:-2.5rem;right:0;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;opacity:.7;}
+  .modal-close:hover{opacity:1;}
+  .modal-prev,.modal-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(109,40,217,.7);border:none;color:#fff;font-size:1.5rem;cursor:pointer;padding:.6rem 1rem;transition:background .2s;}
+  .modal-prev{left:-3.5rem;}.modal-next{right:-3.5rem;}
+  .modal-prev:hover,.modal-next:hover{background:var(--accent);}
+  .modal-counter{position:absolute;bottom:-2rem;left:50%;transform:translateX(-50%);font-size:.75rem;color:var(--muted);letter-spacing:.1em;}
+
+  footer{position:relative;z-index:1;padding:2rem 4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;}
+  footer span{font-size:.75rem;color:var(--muted);}
+
+  .fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+  .fade-in.visible{opacity:1;transform:translateY(0);}
+
+  @media(max-width:900px){
+    nav{padding:1rem 1.5rem;}.nav-links{gap:1rem;}.nav-links a{font-size:.7rem;}
+    header,.project-section{padding-left:1.5rem;padding-right:1.5rem;}
+    .slide{width:calc(50% - .5rem);}
+    .slider-btn.prev{left:0;}.slider-btn.next{right:0;}
+    .modal-prev{left:-2rem;}.modal-next{right:-2rem;}
+    footer{padding:1.5rem;flex-direction:column;gap:.5rem;}
+  }
+  @media(max-width:600px){.nav-links{display:none;}.slide{width:80%;}}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<nav>
+  <a href="index.html" class="nav-name">Alexander Kusnezow</a>
+  <div class="nav-links">
+    <a href="immersive.html">Immersive Welten & Filme</a>
+    <a href="3d.html">3D Design & Modellierung</a>
+    <a href="elearning.html">E-Learning & Content Creation</a>
+    <a href="mediengestaltung.html">Mediengestaltung</a>
+    <a href="steam.html">Steam Artworks</a>
+  </div>
+</nav>
+
+<header>
+  <a href="index.html" class="back-link">← Zurück zur Übersicht</a>
+  <div class="page-label">Kategorie 04</div>
+  <h1 class="page-title">Mediengestaltung</h1>
+</header>
+
+<!-- CORPORAL -->
+<div class="project-section fade-in">
+  <div class="section-header">
+    <div>
+      <div class="section-num">01</div>
+      <div class="section-title">Corporate Design – Corporal</div>
+      <div class="section-desc">Briefbogen, Rechnungen und Visitenkarten im einheitlichen Corporate Design. Entwickelt mit der Adobe Creative Cloud.</div>
+    </div>
+    <div class="slide-count" id="count-corporal"></div>
+  </div>
+  <div class="slider-wrap">
+    <button class="slider-btn prev" onclick="scroll('corporal',-1)">‹</button>
+    <div class="slider" id="slider-corporal">
+      <div class="slide" onclick="openModal('corporal',0)"><img src="media/mediengestaltung/corporal/anna-muster-farbe.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('corporal',1)"><img src="media/mediengestaltung/corporal/anna-muster.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('corporal',2)"><img src="media/mediengestaltung/corporal/briefbogen-farbe.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('corporal',3)"><img src="media/mediengestaltung/corporal/briefbogen.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('corporal',4)"><img src="media/mediengestaltung/corporal/farmer-briefbogen.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('corporal',5)"><img src="media/mediengestaltung/corporal/rechnung-farbe.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('corporal',6)"><img src="media/mediengestaltung/corporal/rechnung-schwarz-weiss.jpg" alt=""/></div>
+    </div>
+    <button class="slider-btn next" onclick="scroll('corporal',1)">›</button>
+  </div>
+</div>
+
+<!-- HOLOHAVEN -->
+<div class="project-section fade-in">
+  <div class="section-header">
+    <div>
+      <div class="section-num">02</div>
+      <div class="section-title">Holohaven</div>
+      <div class="section-desc">Konzept und visuelles Design eines Spielprojekts – Character Design, Level-Konzepte und Präsentationsfolien.</div>
+    </div>
+    <div class="slide-count" id="count-holohaven"></div>
+  </div>
+  <div class="slider-wrap">
+    <button class="slider-btn prev" onclick="scroll('holohaven',-1)">‹</button>
+    <div class="slider" id="slider-holohaven">
+      <div class="slide" onclick="openModal('holohaven',0)"><img src="media/mediengestaltung/holohaven/0001.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',1)"><img src="media/mediengestaltung/holohaven/0002.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',2)"><img src="media/mediengestaltung/holohaven/0003.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',3)"><img src="media/mediengestaltung/holohaven/0004.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',4)"><img src="media/mediengestaltung/holohaven/0005.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',5)"><img src="media/mediengestaltung/holohaven/0006.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',6)"><img src="media/mediengestaltung/holohaven/0007.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',7)"><img src="media/mediengestaltung/holohaven/0008.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',8)"><img src="media/mediengestaltung/holohaven/0009.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',9)"><img src="media/mediengestaltung/holohaven/0010.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',10)"><img src="media/mediengestaltung/holohaven/0011.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',11)"><img src="media/mediengestaltung/holohaven/0012.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',12)"><img src="media/mediengestaltung/holohaven/0013.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',13)"><img src="media/mediengestaltung/holohaven/0014.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',14)"><img src="media/mediengestaltung/holohaven/0015.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',15)"><img src="media/mediengestaltung/holohaven/0016.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',16)"><img src="media/mediengestaltung/holohaven/0017.jpg" alt=""/></div>
+    </div>
+    <button class="slider-btn next" onclick="scroll('holohaven',1)">›</button>
+  </div>
+</div>
+
+<!-- KALENDER -->
+<div class="project-section fade-in">
+  <div class="section-header">
+    <div>
+      <div class="section-num">03</div>
+      <div class="section-title">Kalender 2025</div>
+      <div class="section-desc">Ein zwölfmonatiger Kalender im russisch-deutschen Stil – gestaltet mit Adobe Illustrator und Photoshop.</div>
+    </div>
+    <div class="slide-count" id="count-kalender"></div>
+  </div>
+  <div class="slider-wrap">
+    <button class="slider-btn prev" onclick="scroll('kalender',-1)">‹</button>
+    <div class="slider" id="slider-kalender">
+      <div class="slide" onclick="openModal('kalender',0)"><img src="media/mediengestaltung/kalender/0001.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('kalender',1)"><img src="media/mediengestaltung/kalender/0002.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('kalender',2)"><img src="media/mediengestaltung/kalender/0003.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('kalender',3)"><img src="media/mediengestaltung/kalender/0004.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('kalender',4)"><img src="media/mediengestaltung/kalender/0005.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('kalender',5)"><img src="media/mediengestaltung/kalender/0006.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('kalender',6)"><img src="media/mediengestaltung/kalender/0007.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('kalender',7)"><img src="media/mediengestaltung/kalender/0008.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('kalender',8)"><img src="media/mediengestaltung/kalender/0009.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('kalender',9)"><img src="media/mediengestaltung/kalender/0010.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('kalender',10)"><img src="media/mediengestaltung/kalender/0011.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('kalender',11)"><img src="media/mediengestaltung/kalender/0012.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('kalender',12)"><img src="media/mediengestaltung/kalender/0013.jpg" alt=""/></div>
+    </div>
+    <button class="slider-btn next" onclick="scroll('kalender',1)">›</button>
+  </div>
+</div>
+
+<!-- PLAKATE -->
+<div class="project-section fade-in">
+  <div class="section-header">
+    <div>
+      <div class="section-num">04</div>
+      <div class="section-title">Plakate & Illustrationen</div>
+      <div class="section-desc">Plakate, Buchcover, Storyboards und digitale Illustrationen aus dem Studium an der TH Lübeck.</div>
+    </div>
+    <div class="slide-count" id="count-plakate"></div>
+  </div>
+  <div class="slider-wrap">
+    <button class="slider-btn prev" onclick="scroll('plakate',-1)">‹</button>
+    <div class="slider" id="slider-plakate">
+      <div class="slide" onclick="openModal('plakate',0)"><img src="media/mediengestaltung/plakate/0001.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('plakate',1)"><img src="media/mediengestaltung/plakate/0002.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('plakate',2)"><img src="media/mediengestaltung/plakate/buchcover-fertig.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('plakate',3)"><img src="media/mediengestaltung/plakate/plakat.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('plakate',4)"><img src="media/mediengestaltung/plakate/storyboard1.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('plakate',5)"><img src="media/mediengestaltung/plakate/storyboard2.jpg" alt=""/></div>
+    </div>
+    <button class="slider-btn next" onclick="scroll('plakate',1)">›</button>
+  </div>
+</div>
+
+<!-- SMAFI -->
+<div class="project-section fade-in">
+  <div class="section-header">
+    <div>
+      <div class="section-num">05</div>
+      <div class="section-title">SMAFI – Brand & UI Design</div>
+      <div class="section-desc">Konzept und Gestaltung einer digitalen Markenidentität – UI-Screens, Designsystem und Präsentation.</div>
+    </div>
+    <div class="slide-count" id="count-smafi"></div>
+  </div>
+  <div class="slider-wrap">
+    <button class="slider-btn prev" onclick="scroll('smafi',-1)">‹</button>
+    <div class="slider" id="slider-smafi">
+      <div class="slide" onclick="openModal('smafi',0)"><img src="media/mediengestaltung/smafi/0001.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',1)"><img src="media/mediengestaltung/smafi/0002.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',2)"><img src="media/mediengestaltung/smafi/0003.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',3)"><img src="media/mediengestaltung/smafi/0005.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',4)"><img src="media/mediengestaltung/smafi/0006.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',5)"><img src="media/mediengestaltung/smafi/0007.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',6)"><img src="media/mediengestaltung/smafi/0008.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',7)"><img src="media/mediengestaltung/smafi/0009.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',8)"><img src="media/mediengestaltung/smafi/0010.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',9)"><img src="media/mediengestaltung/smafi/0011.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',10)"><img src="media/mediengestaltung/smafi/0012.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',11)"><img src="media/mediengestaltung/smafi/0013.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',12)"><img src="media/mediengestaltung/smafi/0014.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',13)"><img src="media/mediengestaltung/smafi/0015.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',14)"><img src="media/mediengestaltung/smafi/0016.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',15)"><img src="media/mediengestaltung/smafi/0017.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',16)"><img src="media/mediengestaltung/smafi/0018.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',17)"><img src="media/mediengestaltung/smafi/0019.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',18)"><img src="media/mediengestaltung/smafi/0020.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',19)"><img src="media/mediengestaltung/smafi/0021.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',20)"><img src="media/mediengestaltung/smafi/0022.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',21)"><img src="media/mediengestaltung/smafi/0023.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',22)"><img src="media/mediengestaltung/smafi/0024.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',23)"><img src="media/mediengestaltung/smafi/00045.jpg" alt=""/></div>
+    </div>
+    <button class="slider-btn next" onclick="scroll('smafi',1)">›</button>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal" onclick="closeModal(event)">
+  <div class="modal-inner">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <button class="modal-prev" onclick="modalNav(-1)">‹</button>
+    <img id="modal-img" src="" alt=""/>
+    <button class="modal-next" onclick="modalNav(1)">›</button>
+    <div class="modal-counter" id="modal-counter"></div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 Alexander Kusnezow</span>
+  <span>3D-Artist · XR-Developer · E-Learning Designer</span>
+</footer>
+
+<script>
+  // PARTICLES
+  const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');
+  let W,H,particles=[];
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  function rand(a,b){return Math.random()*(b-a)+a;}
+  class Particle{constructor(){this.reset();}reset(){this.x=rand(0,W);this.y=rand(0,H);this.r=rand(.5,2.2);this.vx=rand(-.3,.3);this.vy=rand(-.5,-.1);this.alpha=rand(.1,.6);this.life=rand(.005,.012);}update(){this.x+=this.vx;this.y+=this.vy;this.alpha-=this.life;if(this.alpha<=0||this.y<-10)this.reset();}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(139,92,246,${this.alpha})`;ctx.fill();}}
+  function drawConnections(){for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(109,40,217,${(1-d/120)*.08})`;ctx.lineWidth=.5;ctx.stroke();}}}
+  for(let i=0;i<120;i++)particles.push(new Particle());
+  function animate(){ctx.clearRect(0,0,W,H);drawConnections();particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
+  animate();
+
+  // SLIDER SCROLL
+  function scroll(id, dir){
+    const s=document.getElementById('slider-'+id);
+    const w=s.querySelector('.slide').offsetWidth+16;
+    s.scrollBy({left:dir*w*3,behavior:'smooth'});
+  }
+
+  // MODAL
+  let modalImgs=[], modalIdx=0;
+  function openModal(section, idx){
+    const slides=document.querySelectorAll('#slider-'+section+' .slide img');
+    modalImgs=Array.from(slides).map(i=>i.src);
+    modalIdx=idx;
+    document.getElementById('modal-img').src=modalImgs[modalIdx];
+    document.getElementById('modal-counter').textContent=`${modalIdx+1} / ${modalImgs.length}`;
+    document.getElementById('modal').classList.add('open');
+  }
+  function closeModal(e){
+    if(!e||e.target===document.getElementById('modal')||e.target.classList.contains('modal-close')){
+      document.getElementById('modal').classList.remove('open');
+    }
+  }
+  function modalNav(dir){
+    modalIdx=(modalIdx+dir+modalImgs.length)%modalImgs.length;
+    document.getElementById('modal-img').src=modalImgs[modalIdx];
+    document.getElementById('modal-counter').textContent=`${modalIdx+1} / ${modalImgs.length}`;
+  }
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape')closeModal();
+    if(e.key==='ArrowRight')modalNav(1);
+    if(e.key==='ArrowLeft')modalNav(-1);
+  });
+
+  // FADE IN
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.05});
+  document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
