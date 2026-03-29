@@ -39,8 +39,9 @@
 
   main{position:relative;z-index:1;padding:5rem 4rem;max-width:1400px;margin:0 auto;}
   .gallery{columns:3;gap:.8rem;}
-  .gallery-item{break-inside:avoid;margin-bottom:.8rem;overflow:hidden;cursor:pointer;position:relative;border:1px solid var(--border);transition:border-color .3s,transform .3s,box-shadow .3s;}
-  .gallery-item:hover{border-color:var(--accent);transform:scale(1.02);box-shadow:0 8px 30px rgba(109,40,217,.25);}
+  a.gallery-item{text-decoration:none;display:block;}
+  .gallery-item{break-inside:avoid;margin-bottom:.8rem;overflow:hidden;cursor:pointer;position:relative;border:1px solid var(--border);transition:border-color .3s,box-shadow .3s;}
+  .gallery-item:hover{border-color:var(--accent);box-shadow:0 8px 30px rgba(109,40,217,.25);}
   .gallery-item img{width:100%;display:block;transition:transform .4s,filter .4s;}
   .gallery-item:hover img{transform:scale(1.05);filter:brightness(.75);}
   .gallery-item .overlay{position:absolute;inset:0;background:rgba(109,40,217,.1);opacity:0;transition:opacity .3s;display:flex;align-items:center;justify-content:center;}
@@ -148,15 +149,7 @@
   </div>
 </main>
 
-<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-  <div class="lightbox-inner">
-    <button class="lb-close" onclick="closeLightbox()">✕</button>
-    <button class="lb-prev" onclick="changeImage(-1)">‹</button>
-    <img id="lb-img" src="" alt=""/>
-    <button class="lb-next" onclick="changeImage(1)">›</button>
-    <div class="lb-counter" id="lb-counter"></div>
-  </div>
-</div>
+
 
 <footer>
   <span>© 2026 Alexander Kusnezow</span>
@@ -174,13 +167,6 @@
   for(let i=0;i<120;i++)particles.push(new Particle());
   function animate(){ctx.clearRect(0,0,W,H);drawConnections();particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
   animate();
-
-  const imgs=Array.from(document.querySelectorAll('.gallery-item img')).map(i=>i.src);
-  let cur=0;
-  function openLightbox(i){cur=i;document.getElementById('lb-img').src=imgs[i];document.getElementById('lb-counter').textContent=`${i+1} / ${imgs.length}`;document.getElementById('lightbox').classList.add('open');}
-  function closeLightbox(e){if(!e||e.target===document.getElementById('lightbox')||e.target.classList.contains('lb-close')){document.getElementById('lightbox').classList.remove('open');}}
-  function changeImage(dir){cur=(cur+dir+imgs.length)%imgs.length;document.getElementById('lb-img').src=imgs[cur];document.getElementById('lb-counter').textContent=`${cur+1} / ${imgs.length}`;}
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();if(e.key==='ArrowRight')changeImage(1);if(e.key==='ArrowLeft')changeImage(-1);});
 
   const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.05});
   document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
