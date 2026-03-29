@@ -11,19 +11,25 @@
   html{scroll-behavior:smooth;}
   body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden;cursor:none;}
 
-  /* CURSOR */
-  #cursor{position:fixed;width:12px;height:12px;background:var(--accent-light);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,width .2s,height .2s,background .2s;}
-  #cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(139,92,246,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .12s ease,top .12s ease,width .2s,height .2s;}
-  body:has(a:hover) #cursor,body:has(button:hover) #cursor{width:20px;height:20px;background:var(--accent);}
-  body:has(a:hover) #cursor-ring,body:has(button:hover) #cursor-ring{width:50px;height:50px;}
+  /* PAGE TRANSITION */
+  #page-transition{position:fixed;inset:0;background:var(--bg);z-index:9999;pointer-events:none;opacity:0;transition:opacity .4s ease;}
+  #page-transition.out{opacity:1;pointer-events:all;}
 
-  /* PARTICLES */
+  /* CURSOR */
+  #cursor{position:fixed;width:12px;height:12px;background:var(--accent-light);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+  #cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(139,92,246,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .1s ease,top .1s ease,width .2s,height .2s;}
   #particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+  /* LANG TOGGLE */
+  .lang-toggle{display:flex;gap:0;border:1px solid var(--border);overflow:hidden;}
+  .lang-btn{padding:.3rem .7rem;font-size:.72rem;letter-spacing:.1em;background:none;border:none;color:var(--muted);cursor:pointer;transition:all .2s;text-transform:uppercase;}
+  .lang-btn.active{background:var(--accent);color:#fff;}
 
   /* NAV */
   nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,16,0.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:padding .3s;}
   nav.scrolled{padding:.8rem 4rem;background:rgba(8,8,16,.97);}
   .nav-name{font-size:.95rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;}
+  .nav-right{display:flex;align-items:center;gap:2.5rem;}
   .nav-links{display:flex;gap:2.5rem;}
   .nav-links a{color:var(--muted);font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;position:relative;}
   .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent-light);transition:width .3s;}
@@ -35,9 +41,15 @@
   .hero-left{display:flex;flex-direction:column;align-items:flex-start;}
   .hero-label{font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-light);margin-bottom:1.5rem;opacity:0;animation:fadeUp .8s .2s forwards;}
   .hero-title{font-size:clamp(3rem,7vw,6rem);font-weight:700;line-height:1;letter-spacing:-.02em;margin-bottom:1rem;opacity:0;animation:fadeUp .8s .4s forwards;}
-  .hero-title span{color:var(--accent-light);text-shadow:0 0 40px var(--accent-glow);}
-  .hero-roles{font-size:clamp(.8rem,1.2vw,.95rem);letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:2rem;opacity:0;animation:fadeUp .8s .6s forwards;}
-  .hero-roles span{color:var(--text);}
+
+  .hero-title span{color:var(--accent-light);text-shadow:0 0 80px rgba(139,92,246,.6),0 0 160px rgba(109,40,217,.3);}
+
+  /* TYPING */
+  .hero-roles{font-size:clamp(.8rem,1.2vw,.95rem);letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:2rem;opacity:0;animation:fadeUp .8s .6s forwards;min-height:1.4em;}
+  .typed-text{color:var(--text);}
+  .typed-cursor{color:var(--accent-light);animation:blink .7s infinite;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
   .hero-desc{max-width:480px;line-height:1.8;color:#aaa;font-size:.92rem;margin-bottom:2.5rem;opacity:0;animation:fadeUp .8s .8s forwards;}
   .btn{display:inline-block;padding:.85rem 2.2rem;border:1px solid var(--accent);color:var(--accent-light);font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;transition:all .3s;position:relative;overflow:hidden;opacity:0;animation:fadeUp .8s 1s forwards;}
   .btn::before{content:'';position:absolute;inset:0;background:var(--accent);transform:translateX(-101%);transition:transform .3s;z-index:-1;}
@@ -52,7 +64,6 @@
   .skill-tag-hero{padding:.4rem 1rem;border:1px solid var(--border);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--bg2);transition:all .3s;}
   .skill-tag-hero:hover{border-color:var(--accent-light);color:var(--accent-light);box-shadow:0 0 12px var(--accent-glow);}
 
-  /* SCROLL */
   .hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--muted);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;z-index:2;opacity:0;animation:fadeIn 1s 1.5s forwards;}
   .scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--accent-light),transparent);animation:scrollAnim 2s ease-in-out infinite;}
 
@@ -104,11 +115,9 @@
   .social-links a{color:var(--muted);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;transition:color .3s;}
   .social-links a:hover{color:var(--accent-light);}
 
-  /* FOOTER */
   footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;}
   footer span{font-size:.75rem;color:var(--muted);}
 
-  /* ANIMATIONS */
   @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeLeft{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
   @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -123,137 +132,134 @@
     #featured,#about,#portfolio,#contact{padding-left:1.5rem;padding-right:1.5rem;}
     .featured-card,.about-grid{grid-template-columns:1fr;}
     footer{padding:1.5rem;flex-direction:column;gap:.5rem;text-align:center;}
+    body{cursor:auto;}#cursor,#cursor-ring{display:none;}
   }
-  @media(max-width:600px){.nav-links{display:none;}.hero-title{font-size:3rem;}}
-  @media(max-width:900px){body{cursor:auto;}#cursor,#cursor-ring{display:none;}}
+  @media(max-width:600px){.nav-links{display:none;}}
 </style>
 </head>
 <body>
 
+<div id="page-transition"></div>
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 <canvas id="particles"></canvas>
 
 <nav id="nav">
   <a href="#hero" class="nav-name">Alexander Kusnezow</a>
-  <div class="nav-links">
-    <a href="#portfolio">Portfolio</a>
-    <a href="#about">Über mich</a>
-    <a href="#contact">Kontakt</a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#portfolio" data-de="Portfolio" data-en="Portfolio">Portfolio</a>
+      <a href="#about" data-de="Über mich" data-en="About">Über mich</a>
+      <a href="#contact" data-de="Kontakt" data-en="Contact">Kontakt</a>
+    </div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('de')">DE</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
   </div>
 </nav>
 
 <section id="hero">
   <div class="hero-left">
-    <div class="hero-label">Portfolio 2026</div>
+    <div class="hero-label" data-de="Portfolio 2026" data-en="Portfolio 2026">Portfolio 2026</div>
     <h1 class="hero-title">Alexander<br><span>Kusnezow</span></h1>
-    <div class="hero-roles"><span>3D-Artist</span> &nbsp;·&nbsp; <span>XR-Developer</span> &nbsp;·&nbsp; <span>E-Learning Designer</span></div>
-    <p class="hero-desc">Digital Creator mit einer Leidenschaft für immersive Medien und modernes E-Learning. Ich verbinde technisches Know-how mit kreativem Storytelling.</p>
-    <a href="#portfolio" class="btn">Projekte ansehen</a>
+    <div class="hero-roles"><span class="typed-text"></span><span class="typed-cursor">|</span></div>
+    <p class="hero-desc" data-de="Digital Creator mit einer Leidenschaft für immersive Medien und modernes E-Learning. Ich verbinde technisches Know-how mit kreativem Storytelling." data-en="Digital Creator with a passion for immersive media and modern e-learning. I combine technical expertise with creative storytelling.">Digital Creator mit einer Leidenschaft für immersive Medien und modernes E-Learning. Ich verbinde technisches Know-how mit kreativem Storytelling.</p>
+    <a href="#portfolio" class="btn" data-de="Projekte ansehen" data-en="View Projects">Projekte ansehen</a>
   </div>
   <div class="hero-right">
-    <div class="skills-label">Skills & Tools</div>
+    <div class="skills-label" data-de="Skills & Tools" data-en="Skills & Tools">Skills & Tools</div>
     <div>
-      <div class="skills-cat-label">3D & Entwicklung</div>
+      <div class="skills-cat-label" data-de="3D & Entwicklung" data-en="3D & Development">3D & Entwicklung</div>
       <div class="skill-tags">
-        <span class="skill-tag-hero">Blender</span>
-        <span class="skill-tag-hero">Unreal Engine</span>
-        <span class="skill-tag-hero">Unity</span>
-        <span class="skill-tag-hero">VR / XR</span>
+        <span class="skill-tag-hero">Blender</span><span class="skill-tag-hero">Unreal Engine</span>
+        <span class="skill-tag-hero">Unity</span><span class="skill-tag-hero">VR / XR</span>
         <span class="skill-tag-hero">3D-Modellierung</span>
       </div>
     </div>
     <div>
-      <div class="skills-cat-label">Design & Medien</div>
+      <div class="skills-cat-label" data-de="Design & Medien" data-en="Design & Media">Design & Medien</div>
       <div class="skill-tags">
-        <span class="skill-tag-hero">Adobe CC</span>
-        <span class="skill-tag-hero">Premiere Pro</span>
-        <span class="skill-tag-hero">After Effects</span>
-        <span class="skill-tag-hero">Photoshop</span>
-        <span class="skill-tag-hero">XD</span>
-        <span class="skill-tag-hero">Fresco</span>
-        <span class="skill-tag-hero">Gimp</span>
-        <span class="skill-tag-hero">Canva</span>
+        <span class="skill-tag-hero">Adobe CC</span><span class="skill-tag-hero">Premiere Pro</span>
+        <span class="skill-tag-hero">After Effects</span><span class="skill-tag-hero">Photoshop</span>
+        <span class="skill-tag-hero">XD</span><span class="skill-tag-hero">Fresco</span>
+        <span class="skill-tag-hero">Gimp</span><span class="skill-tag-hero">Canva</span>
         <span class="skill-tag-hero">UX/UI Design</span>
       </div>
     </div>
     <div>
-      <div class="skills-cat-label">Content & E-Learning</div>
+      <div class="skills-cat-label" data-de="Content & E-Learning" data-en="Content & E-Learning">Content & E-Learning</div>
       <div class="skill-tags">
-        <span class="skill-tag-hero">Vyond</span>
-        <span class="skill-tag-hero">E-Learning</span>
-        <span class="skill-tag-hero">Storytelling</span>
-        <span class="skill-tag-hero">Audacity</span>
+        <span class="skill-tag-hero">Vyond</span><span class="skill-tag-hero">E-Learning</span>
+        <span class="skill-tag-hero">Storytelling</span><span class="skill-tag-hero">Audacity</span>
         <span class="skill-tag-hero">KI-Tools</span>
       </div>
     </div>
     <div>
-      <div class="skills-cat-label">Programmierung</div>
+      <div class="skills-cat-label" data-de="Programmierung" data-en="Programming">Programmierung</div>
       <div class="skill-tags">
-        <span class="skill-tag-hero">Java</span>
-        <span class="skill-tag-hero">PHP</span>
-        <span class="skill-tag-hero">SQL</span>
-        <span class="skill-tag-hero">CSS</span>
+        <span class="skill-tag-hero">Java</span><span class="skill-tag-hero">PHP</span>
+        <span class="skill-tag-hero">SQL</span><span class="skill-tag-hero">CSS</span>
         <span class="skill-tag-hero">Javascript</span>
       </div>
     </div>
   </div>
-  <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
+  <div class="hero-scroll"><div class="scroll-line"></div><span data-de="Scroll" data-en="Scroll">Scroll</span></div>
 </section>
 
 <section id="featured">
-  <div class="section-label fade-in">Aktuelles Projekt</div>
+  <div class="section-label fade-in" data-de="Aktuelles Projekt" data-en="Latest Project">Aktuelles Projekt</div>
   <div class="featured-card fade-in">
     <img class="featured-img" src="media/immersive/thumbnail.jpg" alt="Roggenbuk"/>
     <div>
       <div class="featured-tag">VR · Blended Learning</div>
-      <h2 class="featured-title">Die Sage vom Roggenbuk</h2>
-      <p class="featured-desc">VR-Storytelling & Blended Learning: Ein immersives Erlebnis, das historisches Sagenwissen durch moderne XR-Technologie erlebbar macht – entwickelt als Bachelorarbeit.</p>
-      <a href="immersive.html" class="btn">Mehr erfahren</a>
+      <h2 class="featured-title" data-de="Die Sage vom Roggenbuk" data-en="The Legend of Roggenbuk">Die Sage vom Roggenbuk</h2>
+      <p class="featured-desc" data-de="VR-Storytelling & Blended Learning: Ein immersives Erlebnis, das historisches Sagenwissen durch moderne XR-Technologie erlebbar macht – entwickelt als Bachelorarbeit." data-en="VR-Storytelling & Blended Learning: An immersive experience bringing historical legends to life through modern XR technology – developed as a Bachelor's thesis.">VR-Storytelling & Blended Learning: Ein immersives Erlebnis, das historisches Sagenwissen durch moderne XR-Technologie erlebbar macht – entwickelt als Bachelorarbeit.</p>
+      <a href="immersive.html" class="btn transition-link" data-de="Mehr erfahren" data-en="Learn More">Mehr erfahren</a>
     </div>
   </div>
 </section>
 
 <section id="portfolio">
   <div class="portfolio-header fade-in">
-    <h2 class="portfolio-title">Mein Portfolio</h2>
-    <span style="color:var(--muted);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;">5 Kategorien</span>
+    <h2 class="portfolio-title" data-de="Mein Portfolio" data-en="My Portfolio">Mein Portfolio</h2>
+    <span style="color:var(--muted);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;" data-de="5 Kategorien" data-en="5 Categories">5 Kategorien</span>
   </div>
   <div class="project-list">
-    <a href="immersive.html" class="project-item fade-in">
-      <div class="project-img-wrap"><img src="media/immersive/thumbnail.jpg" alt="Immersive Welten"/></div>
-      <div class="project-card-body"><div class="proj-num">01</div><div class="project-name">Immersive Welten & Filme</div><div class="project-tags">VR-Experiences · 3D-Kuppelprojekte · Interaktives Storytelling</div></div>
+    <a href="immersive.html" class="project-item fade-in transition-link">
+      <div class="project-img-wrap"><img src="media/immersive/thumbnail.jpg" alt=""/></div>
+      <div class="project-card-body"><div class="proj-num">01</div><div class="project-name" data-de="Immersive Welten & Filme" data-en="Immersive Worlds & Films">Immersive Welten & Filme</div><div class="project-tags" data-de="VR-Experiences · 3D-Kuppelprojekte · Interaktives Storytelling" data-en="VR-Experiences · 3D-Dome Projects · Interactive Storytelling">VR-Experiences · 3D-Kuppelprojekte · Interaktives Storytelling</div></div>
     </a>
-    <a href="3d.html" class="project-item fade-in">
-      <div class="project-img-wrap"><img src="media/3d/audi-hdri-blackbars.jpg" alt="3D Design"/></div>
-      <div class="project-card-body"><div class="proj-num">02</div><div class="project-name">3D Design & Modellierung</div><div class="project-tags">Environment Design · Asset Creation · Charakter-Animation</div></div>
+    <a href="3d.html" class="project-item fade-in transition-link">
+      <div class="project-img-wrap"><img src="media/3d/audi-hdri-blackbars.jpg" alt=""/></div>
+      <div class="project-card-body"><div class="proj-num">02</div><div class="project-name" data-de="3D Design & Modellierung" data-en="3D Design & Modelling">3D Design & Modellierung</div><div class="project-tags" data-de="Environment Design · Asset Creation · Charakter-Animation" data-en="Environment Design · Asset Creation · Character Animation">Environment Design · Asset Creation · Charakter-Animation</div></div>
     </a>
-    <a href="elearning.html" class="project-item fade-in">
-      <div class="project-img-wrap"><img src="media/elearning/184.jpg" alt="E-Learning"/></div>
-      <div class="project-card-body"><div class="proj-num">03</div><div class="project-name">E-Learning & Content Creation</div><div class="project-tags">Erklärvideos · YouTube-Produktion · Micro-Learning</div></div>
+    <a href="elearning.html" class="project-item fade-in transition-link">
+      <div class="project-img-wrap"><img src="media/elearning/184.jpg" alt=""/></div>
+      <div class="project-card-body"><div class="proj-num">03</div><div class="project-name" data-de="E-Learning & Content Creation" data-en="E-Learning & Content Creation">E-Learning & Content Creation</div><div class="project-tags" data-de="Erklärvideos · YouTube-Produktion · Micro-Learning" data-en="Explainer Videos · YouTube Production · Micro-Learning">Erklärvideos · YouTube-Produktion · Micro-Learning</div></div>
     </a>
-    <a href="mediengestaltung.html" class="project-item fade-in">
-      <div class="project-img-wrap"><img src="media/mediengestaltung/smafi/0018.jpg" alt="Mediengestaltung"/></div>
-      <div class="project-card-body"><div class="proj-num">04</div><div class="project-name">Mediengestaltung</div><div class="project-tags">UX/UI Design · Grafikdesign · Brand Identity</div></div>
+    <a href="mediengestaltung.html" class="project-item fade-in transition-link">
+      <div class="project-img-wrap"><img src="media/mediengestaltung/smafi/0018.jpg" alt=""/></div>
+      <div class="project-card-body"><div class="proj-num">04</div><div class="project-name" data-de="Mediengestaltung" data-en="Media Design">Mediengestaltung</div><div class="project-tags" data-de="UX/UI Design · Grafikdesign · Brand Identity" data-en="UX/UI Design · Graphic Design · Brand Identity">UX/UI Design · Grafikdesign · Brand Identity</div></div>
     </a>
-    <a href="steam.html" class="project-item fade-in">
-      <div class="project-img-wrap"><img src="media/steam/snake2.jpg" alt="Steam Artworks"/></div>
-      <div class="project-card-body"><div class="proj-num">05</div><div class="project-name">Steam Artworks</div><div class="project-tags">Community Design · Profil-Animationen · Digital Art</div></div>
+    <a href="steam.html" class="project-item fade-in transition-link">
+      <div class="project-img-wrap"><img src="media/steam/snake2.jpg" alt=""/></div>
+      <div class="project-card-body"><div class="proj-num">05</div><div class="project-name" data-de="Steam Artworks" data-en="Steam Artworks">Steam Artworks</div><div class="project-tags" data-de="Community Design · Profil-Animationen · Digital Art" data-en="Community Design · Profile Animations · Digital Art">Community Design · Profil-Animationen · Digital Art</div></div>
     </a>
   </div>
 </section>
 
 <section id="about">
-  <div class="section-label fade-in">Über mich</div>
+  <div class="section-label fade-in" data-de="Über mich" data-en="About Me">Über mich</div>
   <div class="about-grid">
     <div class="fade-in">
       <h2 class="about-heading">Digital Creator.<br><em>Storyteller.</em><br>3D-Artist.</h2>
     </div>
     <div class="fade-in">
       <div class="about-text">
-        <p>Ich habe Informationstechnologie & Design an der TH Lübeck studiert und meinen Bachelor 2025 erfolgreich abgeschlossen. Ich verbinde technisches Know-how mit kreativem Gestaltungswillen – mein Fokus liegt auf immersiven Medien, 3D-Entwicklung und modernem E-Learning.</p>
-        <p>Ob Echtzeit-Welten in Unreal Engine, historische Rekonstruktionen in Blender oder didaktischer Video-Content – ich bringe Ideen zum Leben und mache Wissen erlebbar.</p>
-        <p>Seit über 2 Jahren arbeite ich bei der Plakos GmbH – zunächst als Werkstudent, heute als Minijobber – und produziere dort eigenständig Video-Content für reichweitenstarke Bildungskanäle.</p>
+        <p data-de="Ich habe Informationstechnologie & Design an der TH Lübeck studiert und meinen Bachelor 2025 erfolgreich abgeschlossen. Ich verbinde technisches Know-how mit kreativem Gestaltungswillen – mein Fokus liegt auf immersiven Medien, 3D-Entwicklung und modernem E-Learning." data-en="I studied Information Technology & Design at TH Lübeck and successfully completed my Bachelor's degree in 2025. I combine technical expertise with creative vision – my focus is on immersive media, 3D development and modern e-learning.">Ich habe Informationstechnologie & Design an der TH Lübeck studiert und meinen Bachelor 2025 erfolgreich abgeschlossen. Ich verbinde technisches Know-how mit kreativem Gestaltungswillen – mein Fokus liegt auf immersiven Medien, 3D-Entwicklung und modernem E-Learning.</p>
+        <p data-de="Ob Echtzeit-Welten in Unreal Engine, historische Rekonstruktionen in Blender oder didaktischer Video-Content – ich bringe Ideen zum Leben und mache Wissen erlebbar." data-en="Whether real-time worlds in Unreal Engine, historical reconstructions in Blender or didactic video content – I bring ideas to life and make knowledge tangible.">Ob Echtzeit-Welten in Unreal Engine, historische Rekonstruktionen in Blender oder didaktischer Video-Content – ich bringe Ideen zum Leben und mache Wissen erlebbar.</p>
+        <p data-de="Seit über 2 Jahren arbeite ich bei der Plakos GmbH – zunächst als Werkstudent, heute als Minijobber – und produziere dort eigenständig Video-Content für reichweitenstarke Bildungskanäle." data-en="For over 2 years I have been working at Plakos GmbH – first as a working student, now as a part-time employee – independently producing video content for high-reach educational channels.">Seit über 2 Jahren arbeite ich bei der Plakos GmbH – zunächst als Werkstudent, heute als Minijobber – und produziere dort eigenständig Video-Content für reichweitenstarke Bildungskanäle.</p>
       </div>
       <div class="skills">
         <span class="skill-tag">Blender</span><span class="skill-tag">Unreal Engine</span><span class="skill-tag">Unity</span>
@@ -265,9 +271,9 @@
 </section>
 
 <section id="contact">
-  <div class="contact-pre fade-in">Kontakt</div>
-  <h2 class="contact-heading fade-in">Lass uns zusammenarbeiten.</h2>
-  <p class="contact-sub fade-in">Offen für Projekte, Kollaborationen und neue Möglichkeiten.</p>
+  <div class="contact-pre fade-in" data-de="Kontakt" data-en="Contact">Kontakt</div>
+  <h2 class="contact-heading fade-in" data-de="Lass uns zusammenarbeiten." data-en="Let's work together.">Lass uns zusammenarbeiten.</h2>
+  <p class="contact-sub fade-in" data-de="Offen für Projekte, Kollaborationen und neue Möglichkeiten." data-en="Open for projects, collaborations and new opportunities.">Offen für Projekte, Kollaborationen und neue Möglichkeiten.</p>
   <a href="mailto:alex.kusnezow0@gmx.de" class="contact-email fade-in">alex.kusnezow0@gmx.de</a>
   <div class="social-links fade-in">
     <a href="https://www.linkedin.com/in/alexander-kusnezow-503733382" target="_blank">LinkedIn</a>
@@ -281,11 +287,26 @@
 </footer>
 
 <script>
-  // CUSTOM CURSOR
+  // CURSOR
   const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
   document.addEventListener('mousemove',e=>{
     cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
     ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';
+  });
+
+  // PAGE TRANSITION
+  const pt=document.getElementById('page-transition');
+  window.addEventListener('load',()=>{pt.style.transition='none';pt.classList.remove('out');});
+  document.querySelectorAll('a.transition-link').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const href=a.getAttribute('href');
+      if(href&&!href.startsWith('#')){
+        e.preventDefault();
+        pt.style.transition='opacity .4s ease';
+        pt.classList.add('out');
+        setTimeout(()=>window.location.href=href,400);
+      }
+    });
   });
 
   // NAV SCROLL
@@ -304,6 +325,38 @@
   for(let i=0;i<120;i++)particles.push(new Particle());
   function animate(){ctx.clearRect(0,0,W,H);drawConnections();particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
   animate();
+
+  // TYPING ANIMATION
+  const deRoles=['3D-Artist','XR-Developer','E-Learning Designer'];
+  const enRoles=['3D Artist','XR Developer','E-Learning Designer'];
+  let roleIdx=0,charIdx=0,deleting=false;
+  const typedEl=document.querySelector('.typed-text');
+  function type(){
+    const roles=currentLang==='de'?deRoles:enRoles;
+    const word=roles[roleIdx];
+    if(!deleting){
+      typedEl.textContent=word.slice(0,++charIdx);
+      if(charIdx===word.length){deleting=true;setTimeout(type,1800);return;}
+    } else {
+      typedEl.textContent=word.slice(0,--charIdx);
+      if(charIdx===0){deleting=false;roleIdx=(roleIdx+1)%roles.length;setTimeout(type,300);return;}
+    }
+    setTimeout(type,deleting?60:100);
+  }
+  setTimeout(type,1200);
+
+  // LANGUAGE TOGGLE
+  let currentLang='de';
+  function setLang(lang){
+    currentLang=lang;
+    document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.toLowerCase()===lang));
+    document.querySelectorAll('[data-'+lang+']').forEach(el=>{
+      if(el.tagName==='INPUT'||el.tagName==='TEXTAREA') el.placeholder=el.dataset[lang];
+      else if(!el.querySelector('.typed-text')) el.textContent=el.dataset[lang];
+    });
+    // reset typing
+    roleIdx=0;charIdx=0;deleting=false;typedEl.textContent='';
+  }
 
   // FADE IN
   const obs=new IntersectionObserver(entries=>{
