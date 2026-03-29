@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Steam Artworks | Alexander Kusnezow</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{--bg:#080810;--bg2:#0e0e1a;--text:#f0f0f0;--muted:#777;--accent:#6d28d9;--accent-light:#8b5cf6;--accent-glow:rgba(109,40,217,.35);--border:#1e1e2e;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden;}
+  #particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,16,0.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+  .nav-name{font-size:.95rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;color:var(--text);}
+  .nav-links{display:flex;gap:2rem;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;white-space:nowrap;}
+  .nav-links a:hover{color:var(--accent-light);}
+
+  header{position:relative;z-index:1;padding:10rem 4rem 5rem;text-align:center;border-bottom:1px solid var(--border);}
+  .back-link{display:inline-flex;align-items:center;gap:.5rem;color:var(--muted);text-decoration:none;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2rem;transition:color .3s;}
+  .back-link:hover{color:var(--accent-light);}
+  .page-label{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-light);margin-bottom:1rem;}
+  .page-title{font-size:clamp(2rem,6vw,4.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;}
+  .page-desc{color:var(--muted);font-size:.95rem;max-width:600px;margin:0 auto;line-height:1.7;}
+
+  main{position:relative;z-index:1;padding:5rem 4rem;max-width:1400px;margin:0 auto;}
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+  .art-item{border:1px solid var(--border);overflow:hidden;background:var(--bg2);transition:border-color .3s,box-shadow .3s,transform .3s;}
+  .art-item:hover{border-color:var(--accent);box-shadow:0 8px 30px rgba(109,40,217,.25);transform:translateY(-4px);}
+  .art-item img{width:100%;display:block;transition:transform .4s;}
+  .art-item:hover img{transform:scale(1.04);}
+
+  footer{position:relative;z-index:1;padding:2rem 4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;}
+  footer span{font-size:.75rem;color:var(--muted);}
+
+  .fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+  .fade-in.visible{opacity:1;transform:translateY(0);}
+
+  @media(max-width:900px){
+    nav{padding:1rem 1.5rem;}.nav-links{gap:1rem;}.nav-links a{font-size:.7rem;}
+    header,main{padding-left:1.5rem;padding-right:1.5rem;}
+    .gallery{grid-template-columns:repeat(2,1fr);}
+    footer{padding:1.5rem;flex-direction:column;gap:.5rem;}
+  }
+  @media(max-width:600px){.nav-links{display:none;}.gallery{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<nav>
+  <a href="index.html" class="nav-name">Alexander Kusnezow</a>
+  <div class="nav-links">
+    <a href="immersive.html">Immersive Welten & Filme</a>
+    <a href="3d.html">3D Design & Modellierung</a>
+    <a href="elearning.html">E-Learning & Content Creation</a>
+    <a href="mediengestaltung.html">Mediengestaltung</a>
+    <a href="steam.html">Steam Artworks</a>
+  </div>
+</nav>
+
+<header>
+  <a href="index.html" class="back-link">← Zurück zur Übersicht</a>
+  <div class="page-label">Kategorie 05</div>
+  <h1 class="page-title">Steam Artworks</h1>
+  <p class="page-desc">Community Design, Profil-Animationen und Digital Art – individuelle Artworks für die Gaming-Community mit Fokus auf Lighting-Effekte und Motion Design.</p>
+</header>
+
+<main>
+  <div class="gallery fade-in">
+    <div class="art-item"><img src="media/steam/geralt.gif" alt="Geralt"/></div>
+    <div class="art-item"><img src="media/steam/kakashi.gif" alt="Kakashi"/></div>
+    <div class="art-item"><img src="media/steam/snake.gif" alt="Snake"/></div>
+  </div>
+</main>
+
+<footer>
+  <span>© 2026 Alexander Kusnezow</span>
+  <span>3D-Artist · XR-Developer · E-Learning Designer</span>
+</footer>
+
+<script>
+  const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');
+  let W,H,particles=[];
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  function rand(a,b){return Math.random()*(b-a)+a;}
+  class Particle{constructor(){this.reset();}reset(){this.x=rand(0,W);this.y=rand(0,H);this.r=rand(.5,2.2);this.vx=rand(-.3,.3);this.vy=rand(-.5,-.1);this.alpha=rand(.1,.6);this.life=rand(.005,.012);}update(){this.x+=this.vx;this.y+=this.vy;this.alpha-=this.life;if(this.alpha<=0||this.y<-10)this.reset();}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(139,92,246,${this.alpha})`;ctx.fill();}}
+  function drawConnections(){for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(109,40,217,${(1-d/120)*.08})`;ctx.lineWidth=.5;ctx.stroke();}}}
+  for(let i=0;i<120;i++)particles.push(new Particle());
+  function animate(){ctx.clearRect(0,0,W,H);drawConnections();particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
+  animate();
+
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.05});
+  document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
