@@ -6,23 +6,33 @@
 <title>Immersive Welten & Filme | Alexander Kusnezow</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box;}
-  :root{
-    --bg:#080810;--bg2:#0e0e1a;--text:#f0f0f0;--muted:#777;
-    --accent:#6d28d9;--accent-light:#8b5cf6;--accent-glow:rgba(109,40,217,.35);--border:#1e1e2e;
-  }
+  a{color:inherit;text-decoration:none;}
+  :root{--bg:#080810;--bg2:#0e0e1a;--text:#f0f0f0;--muted:#777;--accent:#6d28d9;--accent-light:#8b5cf6;--accent-glow:rgba(109,40,217,.35);--border:#1e1e2e;}
   html{scroll-behavior:smooth;}
-  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden;cursor:none;}
 
+  #page-transition{position:fixed;inset:0;background:var(--bg);z-index:9999;pointer-events:none;opacity:0;transition:opacity .4s ease;}
+  #page-transition.out{opacity:1;pointer-events:all;}
+  #cursor{position:fixed;width:12px;height:12px;background:var(--accent-light);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+  #cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(139,92,246,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .1s ease,top .1s ease,width .2s,height .2s;}
   #particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
 
-  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,16,0.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
-  .nav-name{font-size:.95rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;color:var(--text);}
+  .lang-toggle{display:flex;gap:0;border:1px solid var(--border);overflow:hidden;}
+  .lang-btn{padding:.3rem .7rem;font-size:.72rem;letter-spacing:.1em;background:none;border:none;color:var(--muted);cursor:pointer;transition:all .2s;text-transform:uppercase;}
+  .lang-btn.active{background:var(--accent);color:#fff;}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,16,0.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:padding .3s;}
+  nav.scrolled{padding:.8rem 4rem;background:rgba(8,8,16,.97);}
+  .nav-name{font-size:.95rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;}
+  .nav-right{display:flex;align-items:center;gap:2.5rem;}
   .nav-links{display:flex;gap:2rem;}
-  .nav-links a{color:var(--muted);text-decoration:none;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;white-space:nowrap;}
+  .nav-links a{color:var(--muted);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;white-space:nowrap;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent-light);transition:width .3s;}
   .nav-links a:hover{color:var(--accent-light);}
+  .nav-links a:hover::after{width:100%;}
 
   header{position:relative;z-index:1;padding:10rem 4rem 5rem;text-align:center;border-bottom:1px solid var(--border);}
-  .back-link{display:inline-flex;align-items:center;gap:.5rem;color:var(--muted);text-decoration:none;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2rem;transition:color .3s;}
+  .back-link{display:inline-flex;align-items:center;gap:.5rem;color:var(--muted);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2rem;transition:color .3s;}
   .back-link:hover{color:var(--accent-light);}
   .page-label{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-light);margin-bottom:1rem;}
   .page-title{font-size:clamp(2rem,6vw,4.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;}
@@ -30,10 +40,8 @@
 
   main{position:relative;z-index:1;padding:5rem 4rem;max-width:1400px;margin:0 auto;}
   .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(560px,1fr));gap:3rem;}
-
   .project-card{background:var(--bg2);border:1px solid var(--border);transition:border-color .3s,transform .3s,box-shadow .3s;}
   .project-card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 12px 40px rgba(109,40,217,.2);}
-
   .thumb-wrap{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;cursor:pointer;}
   .thumb-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s,filter .4s;}
   .project-card:hover .thumb-wrap img{transform:scale(1.04);filter:brightness(.7);}
@@ -41,18 +49,16 @@
   .project-card:hover .play-btn{opacity:1;}
   .play-circle{width:64px;height:64px;border-radius:50%;background:rgba(109,40,217,.85);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);border:2px solid var(--accent-light);}
   .play-circle svg{width:24px;height:24px;fill:#fff;margin-left:4px;}
-
   .card-body{padding:1.8rem 2rem 2rem;}
   .card-title{font-size:1.2rem;font-weight:700;margin-bottom:.8rem;line-height:1.3;}
   .card-desc{color:#999;font-size:.88rem;line-height:1.75;margin-bottom:1rem;}
   .card-tools{font-size:.78rem;color:var(--muted);line-height:1.6;}
   .card-tools strong{color:var(--accent-light);}
 
-  /* MODAL */
   .modal{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;}
   .modal.open{display:flex;}
   .modal-inner{position:relative;width:90%;max-width:900px;}
-  .modal-close{position:absolute;top:-2.5rem;right:0;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;opacity:.7;transition:opacity .2s;}
+  .modal-close{position:absolute;top:-2.5rem;right:0;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;opacity:.7;}
   .modal-close:hover{opacity:1;}
   .modal-video{width:100%;aspect-ratio:16/9;}
   .modal-video iframe{width:100%;height:100%;border:none;}
@@ -64,53 +70,58 @@
   .fade-in.visible{opacity:1;transform:translateY(0);}
 
   @media(max-width:900px){
-    nav{padding:1rem 1.5rem;}
-    .nav-links{gap:1rem;}
-    .nav-links a{font-size:.7rem;}
+    nav{padding:1rem 1.5rem;}.nav-links{gap:1rem;}.nav-links a{font-size:.7rem;}
     header,main{padding-left:1.5rem;padding-right:1.5rem;}
     .projects-grid{grid-template-columns:1fr;}
     footer{padding:1.5rem;flex-direction:column;gap:.5rem;}
+    body{cursor:auto;}#cursor,#cursor-ring{display:none;}
   }
   @media(max-width:600px){.nav-links{display:none;}}
 </style>
 </head>
 <body>
-
+<div id="page-transition"></div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
 <canvas id="particles"></canvas>
 
-<nav>
-  <a href="index.html" class="nav-name">Alexander Kusnezow</a>
-  <div class="nav-links">
-    <a href="immersive.html">Immersive Welten & Filme</a>
-    <a href="3d.html">3D Design & Modellierung</a>
-    <a href="elearning.html">E-Learning & Content Creation</a>
-    <a href="mediengestaltung.html">Mediengestaltung</a>
-    <a href="steam.html">Steam Artworks</a>
+<nav id="nav">
+  <a href="index.html" class="nav-name transition-link">Alexander Kusnezow</a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="immersive.html" class="transition-link" data-de="Immersive Welten & Filme" data-en="Immersive Worlds & Films">Immersive Welten & Filme</a>
+      <a href="3d.html" class="transition-link" data-de="3D Design & Modellierung" data-en="3D Design & Modelling">3D Design & Modellierung</a>
+      <a href="elearning.html" class="transition-link" data-de="E-Learning & Content Creation" data-en="E-Learning & Content Creation">E-Learning & Content Creation</a>
+      <a href="mediengestaltung.html" class="transition-link" data-de="Mediengestaltung" data-en="Media Design">Mediengestaltung</a>
+      <a href="steam.html" class="transition-link" data-de="Steam Artworks" data-en="Steam Artworks">Steam Artworks</a>
+    </div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('de')">DE</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
   </div>
 </nav>
 
 <header>
-  <a href="index.html" class="back-link">← Zurück zur Übersicht</a>
-  <div class="page-label">Kategorie 01</div>
-  <h1 class="page-title">Immersive Welten & Filme</h1>
-  <p class="page-desc">VR-Experiences, 3D-Kuppelprojekte und interaktives Storytelling – virtuelle Räume, die Geschichten erlebbar machen.</p>
+  <a href="index.html" class="back-link transition-link" data-de="← Zurück zur Übersicht" data-en="← Back to Overview">← Zurück zur Übersicht</a>
+  <div class="page-label" data-de="Kategorie 01" data-en="Category 01">Kategorie 01</div>
+  <h1 class="page-title" data-de="Immersive Welten & Filme" data-en="Immersive Worlds & Films">Immersive Welten & Filme</h1>
+  <p class="page-desc" data-de="VR-Experiences, 3D-Kuppelprojekte und interaktives Storytelling – virtuelle Räume, die Geschichten erlebbar machen." data-en="VR-Experiences, 3D dome projects and interactive storytelling – virtual spaces that bring stories to life.">VR-Experiences, 3D-Kuppelprojekte und interaktives Storytelling – virtuelle Räume, die Geschichten erlebbar machen.</p>
 </header>
 
 <main>
   <div class="projects-grid">
-
     <div class="project-card fade-in">
       <div class="thumb-wrap" onclick="openModal('https://youtu.be/Kjjc1IUaBkQ')">
         <img src="media/immersive/roggenbuk-thumbnail.jpg" alt="Die Sage vom Roggenbuk"/>
         <div class="play-btn"><div class="play-circle"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
       </div>
       <div class="card-body">
-        <div class="card-title">Immersive Experience: Die Sage vom Roggenbuk</div>
-        <div class="card-desc">Ein interaktiver VR-Kurzfilm für Grundschüler, der Storytelling mit modernem E-Learning verbindet. Entwickelt in der Unreal Engine, fokussiert sich das Projekt auf maximale Immersion und den Wissenstransfer durch virtuelles Erleben.</div>
-        <div class="card-tools"><strong>Tools:</strong> Unreal Engine 5.4 (Echtzeit-Rendering & Weltbau), Blender (Modellierung), Mixamo & ActorCore AccuRIG (Rigging & Animation), Tencent Hunyuan 3D (KI-Charaktergenerierung), Adobe Premiere Pro & After Effects, Gimp sowie ChatGPT (Konzeption).</div>
+        <div class="card-title" data-de="Immersive Experience: Die Sage vom Roggenbuk" data-en="Immersive Experience: The Legend of Roggenbuk">Immersive Experience: Die Sage vom Roggenbuk</div>
+        <div class="card-desc" data-de="Ein interaktiver VR-Kurzfilm für Grundschüler, der Storytelling mit modernem E-Learning verbindet. Entwickelt in der Unreal Engine, fokussiert sich das Projekt auf maximale Immersion und den Wissenstransfer durch virtuelles Erleben." data-en="An interactive VR short film for primary school students, combining storytelling with modern e-learning. Developed in Unreal Engine, the project focuses on maximum immersion and knowledge transfer through virtual experience.">Ein interaktiver VR-Kurzfilm für Grundschüler, der Storytelling mit modernem E-Learning verbindet. Entwickelt in der Unreal Engine, fokussiert sich das Projekt auf maximale Immersion und den Wissenstransfer durch virtuelles Erleben.</div>
+        <div class="card-tools"><strong>Tools:</strong> Unreal Engine 5.4, Blender, Mixamo & ActorCore AccuRIG, Tencent Hunyuan 3D, Adobe Premiere Pro & After Effects, Gimp, ChatGPT.</div>
       </div>
     </div>
-
     <div class="project-card fade-in">
       <div class="thumb-wrap" onclick="openModal('https://youtu.be/tREAUgozw44')">
         <img src="media/immersive/3d-blender-animationsfilm.jpg" alt="VAIN"/>
@@ -118,51 +129,46 @@
       </div>
       <div class="card-body">
         <div class="card-title">3D-Kurzfilm: VAIN</div>
-        <div class="card-desc">Ein atmosphärischer Animationsfilm in einer postapokalyptischen Welt. Das Projekt konzentriert sich auf Environment Design und Lighting in Blender, um globale Themen durch visuelles Storytelling zu vermitteln.</div>
-        <div class="card-tools"><strong>Tools:</strong> Blender (Modelling, Texturing, Lighting), Adobe Premiere Pro (Schnitt), Adobe After Effects (Compositing), 3D-Animation.</div>
+        <div class="card-desc" data-de="Ein atmosphärischer Animationsfilm in einer postapokalyptischen Welt. Das Projekt konzentriert sich auf Environment Design und Lighting in Blender, um globale Themen durch visuelles Storytelling zu vermitteln." data-en="An atmospheric animated film set in a post-apocalyptic world. The project focuses on environment design and lighting in Blender to convey global themes through visual storytelling.">Ein atmosphärischer Animationsfilm in einer postapokalyptischen Welt. Das Projekt konzentriert sich auf Environment Design und Lighting in Blender, um globale Themen durch visuelles Storytelling zu vermitteln.</div>
+        <div class="card-tools"><strong>Tools:</strong> Blender, Adobe Premiere Pro, Adobe After Effects, 3D-Animation.</div>
       </div>
     </div>
-
     <div class="project-card fade-in">
       <div class="thumb-wrap" onclick="openModal('https://youtu.be/Fc0n_h8SMCA')">
         <img src="media/immersive/360-thumbnail-lisa.jpg" alt="Lisa von Lübeck"/>
         <div class="play-btn"><div class="play-circle"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
       </div>
       <div class="card-body">
-        <div class="card-title">Digitale Rekonstruktion: Die Lisa von Lübeck</div>
-        <div class="card-desc">Für eine 360°-Kuppelprojektion konzipiert, rekonstruiert dieser Kurzfilm ein mittelalterliches Handelsschiff. Der Fokus lag auf historischer Detailtreue und der technischen Umsetzung für immersive Full-Dome-Umgebungen.</div>
-        <div class="card-tools"><strong>Tools:</strong> Blender, Unity, Historische Rekonstruktion, 3D-Modellierung.</div>
+        <div class="card-title" data-de="Digitale Rekonstruktion: Die Lisa von Lübeck" data-en="Digital Reconstruction: The Lisa of Lübeck">Digitale Rekonstruktion: Die Lisa von Lübeck</div>
+        <div class="card-desc" data-de="Für eine 360°-Kuppelprojektion konzipiert, rekonstruiert dieser Kurzfilm ein mittelalterliches Handelsschiff. Der Fokus lag auf historischer Detailtreue und der technischen Umsetzung für immersive Full-Dome-Umgebungen." data-en="Designed for a 360° dome projection, this short film reconstructs a medieval trading ship. The focus was on historical accuracy and technical implementation for immersive full-dome environments.">Für eine 360°-Kuppelprojektion konzipiert, rekonstruiert dieser Kurzfilm ein mittelalterliches Handelsschiff. Der Fokus lag auf historischer Detailtreue und der technischen Umsetzung für immersive Full-Dome-Umgebungen.</div>
+        <div class="card-tools"><strong>Tools:</strong> Blender, Unity, 3D-Modellierung.</div>
       </div>
     </div>
-
     <div class="project-card fade-in">
       <div class="thumb-wrap" onclick="openModal('https://youtu.be/fWtEmuhzsjQ')">
         <img src="media/immersive/360-thumbnail-kaak.jpg" alt="Der Kaak"/>
         <div class="play-btn"><div class="play-circle"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
       </div>
       <div class="card-body">
-        <div class="card-title">3D-Visualisierung: Der Kaak</div>
-        <div class="card-desc">Animation und Modellierung eines historischen Prangers für eine 3D-Kuppelprojektion. Ziel war die Kombination aus musealer Wissensvermittlung und hochwertiger 3D-Animation in Unity.</div>
-        <div class="card-tools"><strong>Tools:</strong> Blender, Unity, Adobe Premiere Pro (Schnitt), 3D-Animation, Historische Visualisierung.</div>
+        <div class="card-title" data-de="3D-Visualisierung: Der Kaak" data-en="3D Visualisation: The Kaak">3D-Visualisierung: Der Kaak</div>
+        <div class="card-desc" data-de="Animation und Modellierung eines historischen Prangers für eine 3D-Kuppelprojektion. Ziel war die Kombination aus musealer Wissensvermittlung und hochwertiger 3D-Animation in Unity." data-en="Animation and modelling of a historical pillory for a 3D dome projection. The goal was to combine museum-style knowledge transfer with high-quality 3D animation in Unity.">Animation und Modellierung eines historischen Prangers für eine 3D-Kuppelprojektion. Ziel war die Kombination aus musealer Wissensvermittlung und hochwertiger 3D-Animation in Unity.</div>
+        <div class="card-tools"><strong>Tools:</strong> Blender, Unity, Adobe Premiere Pro, 3D-Animation.</div>
       </div>
     </div>
-
     <div class="project-card fade-in">
       <div class="thumb-wrap" onclick="openModal('https://youtu.be/ubsjwD398Bw')">
         <img src="media/immersive/cover.jpg" alt="Handelsreise nach Nowgorod"/>
         <div class="play-btn"><div class="play-circle"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
       </div>
       <div class="card-body">
-        <div class="card-title">3D-Animationsfilm: Die Handelsreise nach Nowgorod</div>
-        <div class="card-desc">Eine filmische Zeitreise durch historische Handelsrouten. In diesem Projekt wurde eine virtuelle Kirche als Bühne für ein erzählerisches 3D-Erlebnis genutzt, um Geschichte visuell greifbar zu machen.</div>
-        <div class="card-tools"><strong>Tools:</strong> Blender (Modelling & Animation), Adobe Fresco (Glasmalereien), Adobe Premiere Pro (Schnitt), Storytelling.</div>
+        <div class="card-title" data-de="3D-Animationsfilm: Die Handelsreise nach Nowgorod" data-en="3D Animation Film: The Trade Journey to Novgorod">3D-Animationsfilm: Die Handelsreise nach Nowgorod</div>
+        <div class="card-desc" data-de="Eine filmische Zeitreise durch historische Handelsrouten. In diesem Projekt wurde eine virtuelle Kirche als Bühne für ein erzählerisches 3D-Erlebnis genutzt, um Geschichte visuell greifbar zu machen." data-en="A cinematic journey through historical trade routes. A virtual church was used as a stage for a narrative 3D experience to make history visually tangible.">Eine filmische Zeitreise durch historische Handelsrouten. In diesem Projekt wurde eine virtuelle Kirche als Bühne für ein erzählerisches 3D-Erlebnis genutzt, um Geschichte visuell greifbar zu machen.</div>
+        <div class="card-tools"><strong>Tools:</strong> Blender, Adobe Fresco, Adobe Premiere Pro, Storytelling.</div>
       </div>
     </div>
-
   </div>
 </main>
 
-<!-- MODAL -->
 <div class="modal" id="modal" onclick="closeModal(event)">
   <div class="modal-inner">
     <button class="modal-close" onclick="closeModal()">✕</button>
@@ -176,45 +182,51 @@
 </footer>
 
 <script>
-  // PARTICLES
-  const canvas = document.getElementById('particles');
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [];
+  const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+  document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';});
+
+  const pt=document.getElementById('page-transition');
+  window.addEventListener('load',()=>{pt.style.transition='none';pt.classList.remove('out');});
+  document.querySelectorAll('a.transition-link').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const href=a.getAttribute('href');
+      if(href&&!href.startsWith('#')){e.preventDefault();pt.style.transition='opacity .4s ease';pt.classList.add('out');setTimeout(()=>window.location.href=href,400);}
+    });
+  });
+
+  window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50));
+
+  const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');
+  let W,H,particles=[];
   function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
   resize();window.addEventListener('resize',resize);
   function rand(a,b){return Math.random()*(b-a)+a;}
-  class Particle{
-    constructor(){this.reset();}
-    reset(){this.x=rand(0,W);this.y=rand(0,H);this.r=rand(.5,2.2);this.vx=rand(-.3,.3);this.vy=rand(-.5,-.1);this.alpha=rand(.1,.6);this.life=rand(.005,.012);}
-    update(){this.x+=this.vx;this.y+=this.vy;this.alpha-=this.life;if(this.alpha<=0||this.y<-10)this.reset();}
-    draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(139,92,246,${this.alpha})`;ctx.fill();}
-  }
-  function drawConnections(){
-    for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){
-      const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy);
-      if(d<120){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(109,40,217,${(1-d/120)*.08})`;ctx.lineWidth=.5;ctx.stroke();}
-    }
-  }
+  class Particle{constructor(){this.reset();}reset(){this.x=rand(0,W);this.y=rand(0,H);this.r=rand(.5,2.2);this.vx=rand(-.3,.3);this.vy=rand(-.5,-.1);this.alpha=rand(.1,.6);this.life=rand(.005,.012);}update(){this.x+=this.vx;this.y+=this.vy;this.alpha-=this.life;if(this.alpha<=0||this.y<-10)this.reset();}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(139,92,246,${this.alpha})`;ctx.fill();}}
+  function drawConnections(){for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(109,40,217,${(1-d/120)*.08})`;ctx.lineWidth=.5;ctx.stroke();}}}
   for(let i=0;i<120;i++)particles.push(new Particle());
   function animate(){ctx.clearRect(0,0,W,H);drawConnections();particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
   animate();
 
-  // MODAL
-  function openModal(ytUrl) {
-    if (!ytUrl) return;
-    const id = ytUrl.includes('youtu.be') ? ytUrl.split('/').pop() : new URL(ytUrl).searchParams.get('v');
-    document.getElementById('modal-video').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allowfullscreen allow="autoplay"></iframe>`;
+  function openModal(ytUrl){
+    const id=ytUrl.split('/').pop().split('?')[0];
+    document.getElementById('modal-video').innerHTML='<iframe src="https://www.youtube.com/embed/'+id+'?autoplay=1" allowfullscreen allow="autoplay"></iframe>';
     document.getElementById('modal').classList.add('open');
   }
-  function closeModal(e) {
-    if (!e || e.target === document.getElementById('modal') || e.target.classList.contains('modal-close')) {
+  function closeModal(e){
+    if(!e||e.target===document.getElementById('modal')||e.target.classList.contains('modal-close')){
       document.getElementById('modal').classList.remove('open');
-      document.getElementById('modal-video').innerHTML = '';
+      document.getElementById('modal-video').innerHTML='';
     }
   }
-  document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
-  // FADE IN
+  let currentLang='de';
+  function setLang(lang){
+    currentLang=lang;
+    document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.toLowerCase()===lang));
+    document.querySelectorAll('[data-'+lang+']').forEach(el=>{el.textContent=el.dataset[lang];});
+  }
+
   const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.1});
   document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
 </script>

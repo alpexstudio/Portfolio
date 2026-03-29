@@ -6,19 +6,33 @@
 <title>Steam Artworks | Alexander Kusnezow</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box;}
+  a{color:inherit;text-decoration:none;}
   :root{--bg:#080810;--bg2:#0e0e1a;--text:#f0f0f0;--muted:#777;--accent:#6d28d9;--accent-light:#8b5cf6;--accent-glow:rgba(109,40,217,.35);--border:#1e1e2e;}
   html{scroll-behavior:smooth;}
-  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden;cursor:none;}
+
+  #page-transition{position:fixed;inset:0;background:var(--bg);z-index:9999;pointer-events:none;opacity:0;transition:opacity .4s ease;}
+  #page-transition.out{opacity:1;pointer-events:all;}
+  #cursor{position:fixed;width:12px;height:12px;background:var(--accent-light);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+  #cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(139,92,246,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .1s ease,top .1s ease;}
   #particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
 
-  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,16,0.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
-  .nav-name{font-size:.95rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;color:var(--text);}
+  .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;}
+  .lang-btn{padding:.3rem .7rem;font-size:.72rem;letter-spacing:.1em;background:none;border:none;color:var(--muted);cursor:pointer;transition:all .2s;text-transform:uppercase;}
+  .lang-btn.active{background:var(--accent);color:#fff;}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,16,0.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:padding .3s;}
+  nav.scrolled{padding:.8rem 4rem;background:rgba(8,8,16,.97);}
+  .nav-name{font-size:.95rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;}
+  .nav-right{display:flex;align-items:center;gap:2.5rem;}
   .nav-links{display:flex;gap:2rem;}
-  .nav-links a{color:var(--muted);text-decoration:none;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;white-space:nowrap;}
+  .nav-links a{color:var(--muted);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;white-space:nowrap;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent-light);transition:width .3s;}
   .nav-links a:hover{color:var(--accent-light);}
+  .nav-links a:hover::after{width:100%;}
 
   header{position:relative;z-index:1;padding:10rem 4rem 5rem;text-align:center;border-bottom:1px solid var(--border);}
-  .back-link{display:inline-flex;align-items:center;gap:.5rem;color:var(--muted);text-decoration:none;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2rem;transition:color .3s;}
+  .back-link{display:inline-flex;align-items:center;gap:.5rem;color:var(--muted);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2rem;transition:color .3s;}
   .back-link:hover{color:var(--accent-light);}
   .page-label{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-light);margin-bottom:1rem;}
   .page-title{font-size:clamp(2rem,6vw,4.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;}
@@ -33,38 +47,47 @@
 
   footer{position:relative;z-index:1;padding:2rem 4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;}
   footer span{font-size:.75rem;color:var(--muted);}
-
   .fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
   .fade-in.visible{opacity:1;transform:translateY(0);}
 
   @media(max-width:900px){
     nav{padding:1rem 1.5rem;}.nav-links{gap:1rem;}.nav-links a{font-size:.7rem;}
     header,main{padding-left:1.5rem;padding-right:1.5rem;}
-    .gallery{grid-template-columns:repeat(2,1fr);}
+    .gallery{grid-template-columns:1fr;}
     footer{padding:1.5rem;flex-direction:column;gap:.5rem;}
+    body{cursor:auto;}#cursor,#cursor-ring{display:none;}
   }
-  @media(max-width:600px){.nav-links{display:none;}.gallery{grid-template-columns:1fr;}}
+  @media(max-width:600px){.nav-links{display:none;}}
 </style>
 </head>
 <body>
+<div id="page-transition"></div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
 <canvas id="particles"></canvas>
 
-<nav>
-  <a href="index.html" class="nav-name">Alexander Kusnezow</a>
-  <div class="nav-links">
-    <a href="immersive.html">Immersive Welten & Filme</a>
-    <a href="3d.html">3D Design & Modellierung</a>
-    <a href="elearning.html">E-Learning & Content Creation</a>
-    <a href="mediengestaltung.html">Mediengestaltung</a>
-    <a href="steam.html">Steam Artworks</a>
+<nav id="nav">
+  <a href="index.html" class="nav-name transition-link">Alexander Kusnezow</a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="immersive.html" class="transition-link" data-de="Immersive Welten & Filme" data-en="Immersive Worlds & Films">Immersive Welten & Filme</a>
+      <a href="3d.html" class="transition-link" data-de="3D Design & Modellierung" data-en="3D Design & Modelling">3D Design & Modellierung</a>
+      <a href="elearning.html" class="transition-link" data-de="E-Learning & Content Creation" data-en="E-Learning & Content Creation">E-Learning & Content Creation</a>
+      <a href="mediengestaltung.html" class="transition-link" data-de="Mediengestaltung" data-en="Media Design">Mediengestaltung</a>
+      <a href="steam.html" class="transition-link" data-de="Steam Artworks" data-en="Steam Artworks">Steam Artworks</a>
+    </div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('de')">DE</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
   </div>
 </nav>
 
 <header>
-  <a href="index.html" class="back-link">← Zurück zur Übersicht</a>
-  <div class="page-label">Kategorie 05</div>
+  <a href="index.html" class="back-link transition-link" data-de="← Zurück zur Übersicht" data-en="← Back to Overview">← Zurück zur Übersicht</a>
+  <div class="page-label" data-de="Kategorie 05" data-en="Category 05">Kategorie 05</div>
   <h1 class="page-title">Steam Artworks</h1>
-  <p class="page-desc">Community Design, Profil-Animationen und Digital Art – individuelle Artworks für die Gaming-Community mit Fokus auf Lighting-Effekte und Motion Design.</p>
+  <p class="page-desc" data-de="Community Design, Profil-Animationen und Digital Art – individuelle Artworks für die Gaming-Community mit Fokus auf Lighting-Effekte und Motion Design." data-en="Community design, profile animations and digital art – individual artworks for the gaming community with a focus on lighting effects and motion design.">Community Design, Profil-Animationen und Digital Art – individuelle Artworks für die Gaming-Community mit Fokus auf Lighting-Effekte und Motion Design.</p>
 </header>
 
 <main>
@@ -81,6 +104,15 @@
 </footer>
 
 <script>
+  const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+  document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';});
+  const pt=document.getElementById('page-transition');
+  window.addEventListener('load',()=>{pt.style.transition='none';pt.classList.remove('out');});
+  document.querySelectorAll('a.transition-link').forEach(a=>{
+    a.addEventListener('click',e=>{const href=a.getAttribute('href');if(href&&!href.startsWith('#')){e.preventDefault();pt.style.transition='opacity .4s ease';pt.classList.add('out');setTimeout(()=>window.location.href=href,400);}});
+  });
+  window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50));
+
   const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');
   let W,H,particles=[];
   function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
@@ -91,6 +123,9 @@
   for(let i=0;i<120;i++)particles.push(new Particle());
   function animate(){ctx.clearRect(0,0,W,H);drawConnections();particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
   animate();
+
+  let currentLang='de';
+  function setLang(lang){currentLang=lang;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.toLowerCase()===lang));document.querySelectorAll('[data-'+lang+']').forEach(el=>{el.textContent=el.dataset[lang];});}
 
   const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.05});
   document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
