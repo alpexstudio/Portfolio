@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>E-Learning & Content Creation | Alexander Kusnezow</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --bg:#080810;--bg2:#0e0e1a;--text:#f0f0f0;--muted:#777;
+    --accent:#6d28d9;--accent-light:#8b5cf6;--accent-glow:rgba(109,40,217,.35);--border:#1e1e2e;
+  }
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden;}
+
+  #particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,16,0.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+  .nav-name{font-size:.95rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;color:var(--text);}
+  .nav-links{display:flex;gap:2rem;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;white-space:nowrap;}
+  .nav-links a:hover{color:var(--accent-light);}
+
+  header{position:relative;z-index:1;padding:10rem 4rem 5rem;text-align:center;border-bottom:1px solid var(--border);}
+  .back-link{display:inline-flex;align-items:center;gap:.5rem;color:var(--muted);text-decoration:none;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2rem;transition:color .3s;}
+  .back-link:hover{color:var(--accent-light);}
+  .page-label{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-light);margin-bottom:1rem;}
+  .page-title{font-size:clamp(2rem,6vw,4.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;}
+
+  /* INTRO */
+  .intro{position:relative;z-index:1;padding:5rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;border-bottom:1px solid var(--border);max-width:1400px;margin:0 auto;}
+  .intro-left h2{font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.15;letter-spacing:-.02em;}
+  .intro-left h2 span{color:var(--accent-light);text-shadow:0 0 30px var(--accent-glow);}
+  .intro-right p{color:#999;font-size:.92rem;line-height:1.8;}
+  .intro-right p+p{margin-top:1rem;}
+
+  /* GALLERY */
+  main{position:relative;z-index:1;padding:5rem 4rem;max-width:1400px;margin:0 auto;}
+  .gallery{columns:4;gap:.8rem;}
+  .gallery-item{break-inside:avoid;margin-bottom:.8rem;overflow:hidden;cursor:pointer;position:relative;border:1px solid var(--border);transition:border-color .3s,transform .3s,box-shadow .3s;}
+  .gallery-item:hover{border-color:var(--accent);transform:scale(1.02);box-shadow:0 8px 30px rgba(109,40,217,.25);}
+  .gallery-item img{width:100%;display:block;transition:transform .4s,filter .4s;}
+  .gallery-item:hover img{transform:scale(1.05);filter:brightness(.75);}
+  .gallery-item .overlay{position:absolute;inset:0;background:rgba(109,40,217,.1);opacity:0;transition:opacity .3s;display:flex;align-items:center;justify-content:center;}
+  .gallery-item:hover .overlay{opacity:1;}
+  .overlay-icon{width:40px;height:40px;border-radius:50%;background:rgba(109,40,217,.8);display:flex;align-items:center;justify-content:center;border:1px solid var(--accent-light);}
+  .overlay-icon svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;}
+
+  /* LIGHTBOX */
+  .lightbox{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.92);backdrop-filter:blur(10px);align-items:center;justify-content:center;}
+  .lightbox.open{display:flex;}
+  .lightbox-inner{position:relative;max-width:90vw;max-height:90vh;}
+  .lightbox-inner img{max-width:90vw;max-height:90vh;object-fit:contain;border:1px solid var(--border);}
+  .lb-close{position:absolute;top:-2.5rem;right:0;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;opacity:.7;transition:opacity .2s;}
+  .lb-close:hover{opacity:1;}
+  .lb-prev,.lb-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(109,40,217,.7);border:none;color:#fff;font-size:1.5rem;cursor:pointer;padding:.6rem 1rem;transition:background .2s;}
+  .lb-prev{left:-3.5rem;} .lb-next{right:-3.5rem;}
+  .lb-prev:hover,.lb-next:hover{background:var(--accent);}
+  .lb-counter{position:absolute;bottom:-2rem;left:50%;transform:translateX(-50%);font-size:.75rem;color:var(--muted);letter-spacing:.1em;}
+
+  footer{position:relative;z-index:1;padding:2rem 4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;}
+  footer span{font-size:.75rem;color:var(--muted);}
+
+  .fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+  .fade-in.visible{opacity:1;transform:translateY(0);}
+
+  @media(max-width:1100px){.gallery{columns:3;}.intro{grid-template-columns:1fr;gap:2rem;}}
+  @media(max-width:900px){
+    nav{padding:1rem 1.5rem;}.nav-links{gap:1rem;}.nav-links a{font-size:.7rem;}
+    header,.intro,main{padding-left:1.5rem;padding-right:1.5rem;}
+    .gallery{columns:2;}
+    .lb-prev{left:-2rem;}.lb-next{right:-2rem;}
+    footer{padding:1.5rem;flex-direction:column;gap:.5rem;}
+  }
+  @media(max-width:600px){.nav-links{display:none;}.gallery{columns:1;}}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<nav>
+  <a href="index.html" class="nav-name">Alexander Kusnezow</a>
+  <div class="nav-links">
+    <a href="immersive.html">Immersive Welten & Filme</a>
+    <a href="3d.html">3D Design & Modellierung</a>
+    <a href="elearning.html">E-Learning & Content Creation</a>
+    <a href="mediengestaltung.html">Mediengestaltung</a>
+    <a href="steam.html">Steam Artworks</a>
+  </div>
+</nav>
+
+<header>
+  <a href="index.html" class="back-link">← Zurück zur Übersicht</a>
+  <div class="page-label">Kategorie 03</div>
+  <h1 class="page-title">E-Learning & Content Creation</h1>
+</header>
+
+<div class="intro fade-in">
+  <div class="intro-left">
+    <h2><span>79+</span> Produktionen für<br>Plakos & Prüfungstipps</h2>
+  </div>
+  <div class="intro-right">
+    <p>Seit 2023 entwickle ich hochwertigen Video-Content für reichweitenstarke Bildungskanäle. Mein Fokus liegt auf der Verbindung von didaktischer Klarheit und modernem Storytelling, um komplexe Lerninhalte für eine breite Zielgruppe zugänglich und unterhaltsam zu machen.</p>
+    <p>Als Content Creator verantworte ich die visuelle Umsetzung für die Kanäle Plakos Akademie und Prüfungstipps. Auf Basis fertiger Skripte entwickle ich den kompletten visuellen Workflow: von der Charakter-Animation in Vyond über das Sounddesign bis hin zum finalen Schnitt und der Postproduktion in Adobe Premiere Pro.</p>
+  </div>
+</div>
+
+<main>
+  <div class="gallery" id="gallery">
+    <div class="gallery-item fade-in" onclick="openLightbox(0)"><img src="media/elearning/12.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(1)"><img src="media/elearning/13.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(2)"><img src="media/elearning/14.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(3)"><img src="media/elearning/15.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(4)"><img src="media/elearning/16.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(5)"><img src="media/elearning/17.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(6)"><img src="media/elearning/18.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(7)"><img src="media/elearning/19.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(8)"><img src="media/elearning/20.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(9)"><img src="media/elearning/21.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(10)"><img src="media/elearning/23.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(11)"><img src="media/elearning/24.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(12)"><img src="media/elearning/25.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(13)"><img src="media/elearning/26.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(14)"><img src="media/elearning/27.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(15)"><img src="media/elearning/28.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(16)"><img src="media/elearning/29.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(17)"><img src="media/elearning/163.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(18)"><img src="media/elearning/164.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(19)"><img src="media/elearning/165.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(20)"><img src="media/elearning/166.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(21)"><img src="media/elearning/167.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(22)"><img src="media/elearning/168.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(23)"><img src="media/elearning/169.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(24)"><img src="media/elearning/170.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(25)"><img src="media/elearning/171.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(26)"><img src="media/elearning/172.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(27)"><img src="media/elearning/173.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(28)"><img src="media/elearning/174.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(29)"><img src="media/elearning/175.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(30)"><img src="media/elearning/176.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(31)"><img src="media/elearning/177.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(32)"><img src="media/elearning/178.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(33)"><img src="media/elearning/179.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(34)"><img src="media/elearning/180.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(35)"><img src="media/elearning/181.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(36)"><img src="media/elearning/182.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(37)"><img src="media/elearning/183.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(38)"><img src="media/elearning/184.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(39)"><img src="media/elearning/185.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(40)"><img src="media/elearning/186.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(41)"><img src="media/elearning/187.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(42)"><img src="media/elearning/188.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(43)"><img src="media/elearning/189.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(44)"><img src="media/elearning/190.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(45)"><img src="media/elearning/191.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(46)"><img src="media/elearning/192.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(47)"><img src="media/elearning/193.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(48)"><img src="media/elearning/194.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(49)"><img src="media/elearning/195.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(50)"><img src="media/elearning/196.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(51)"><img src="media/elearning/197.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(52)"><img src="media/elearning/198.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(53)"><img src="media/elearning/199.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(54)"><img src="media/elearning/200.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+    <div class="gallery-item fade-in" onclick="openLightbox(55)"><img src="media/elearning/vyond.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div></div>
+  </div>
+</main>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner">
+    <button class="lb-close" onclick="closeLightbox()">✕</button>
+    <button class="lb-prev" onclick="changeImage(-1)">‹</button>
+    <img id="lb-img" src="" alt=""/>
+    <button class="lb-next" onclick="changeImage(1)">›</button>
+    <div class="lb-counter" id="lb-counter"></div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 Alexander Kusnezow</span>
+  <span>3D-Artist · XR-Developer · E-Learning Designer</span>
+</footer>
+
+<script>
+  const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');
+  let W,H,particles=[];
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  function rand(a,b){return Math.random()*(b-a)+a;}
+  class Particle{constructor(){this.reset();}reset(){this.x=rand(0,W);this.y=rand(0,H);this.r=rand(.5,2.2);this.vx=rand(-.3,.3);this.vy=rand(-.5,-.1);this.alpha=rand(.1,.6);this.life=rand(.005,.012);}update(){this.x+=this.vx;this.y+=this.vy;this.alpha-=this.life;if(this.alpha<=0||this.y<-10)this.reset();}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(139,92,246,${this.alpha})`;ctx.fill();}}
+  function drawConnections(){for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(109,40,217,${(1-d/120)*.08})`;ctx.lineWidth=.5;ctx.stroke();}}}
+  for(let i=0;i<120;i++)particles.push(new Particle());
+  function animate(){ctx.clearRect(0,0,W,H);drawConnections();particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
+  animate();
+
+  const imgs=Array.from(document.querySelectorAll('.gallery-item img')).map(i=>i.src);
+  let cur=0;
+  function openLightbox(i){cur=i;document.getElementById('lb-img').src=imgs[i];document.getElementById('lb-counter').textContent=`${i+1} / ${imgs.length}`;document.getElementById('lightbox').classList.add('open');}
+  function closeLightbox(e){if(!e||e.target===document.getElementById('lightbox')||e.target.classList.contains('lb-close')){document.getElementById('lightbox').classList.remove('open');}}
+  function changeImage(dir){cur=(cur+dir+imgs.length)%imgs.length;document.getElementById('lb-img').src=imgs[cur];document.getElementById('lb-counter').textContent=`${cur+1} / ${imgs.length}`;}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();if(e.key==='ArrowRight')changeImage(1);if(e.key==='ArrowLeft')changeImage(-1);});
+
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.05});
+  document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
