@@ -49,16 +49,14 @@
   .overlay-icon{width:40px;height:40px;border-radius:50%;background:rgba(109,40,217,.8);display:flex;align-items:center;justify-content:center;border:1px solid var(--accent-light);}
   .overlay-icon svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;}
 
-  .lightbox{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.92);backdrop-filter:blur(10px);align-items:center;justify-content:center;}
-  .lightbox.open{display:flex;}
-  .lightbox-inner{position:relative;max-width:90vw;max-height:90vh;}
-  .lightbox-inner img{max-width:90vw;max-height:90vh;object-fit:contain;border:1px solid var(--border);}
-  .lb-close{position:absolute;top:-2.5rem;right:0;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;opacity:.7;transition:opacity .2s;}
-  .lb-close:hover{opacity:1;}
-  .lb-prev,.lb-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(109,40,217,.7);border:none;color:#fff;font-size:1.5rem;cursor:pointer;padding:.6rem 1rem;transition:background .2s;}
-  .lb-prev{left:-3.5rem;}.lb-next{right:-3.5rem;}
-  .lb-prev:hover,.lb-next:hover{background:var(--accent);}
-  .lb-counter{position:absolute;bottom:-2rem;left:50%;transform:translateX(-50%);font-size:.75rem;color:var(--muted);letter-spacing:.1em;}
+  /* MODAL */
+  .modal{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;}
+  .modal.open{display:flex;}
+  .modal-inner{position:relative;width:90%;max-width:900px;}
+  .modal-close{position:absolute;top:-2.5rem;right:0;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;opacity:.7;transition:opacity .2s;}
+  .modal-close:hover{opacity:1;}
+  .modal-video{width:100%;aspect-ratio:16/9;}
+  .modal-video iframe{width:100%;height:100%;border:none;}
 
   footer{position:relative;z-index:1;padding:2rem 4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;}
   footer span{font-size:.75rem;color:var(--muted);}
@@ -151,6 +149,13 @@
 
 
 
+<div class="modal" id="modal" onclick="closeModal(event)">
+  <div class="modal-inner">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-video" id="modal-video"></div>
+  </div>
+</div>
+
 <footer>
   <span>© 2026 Alexander Kusnezow</span>
   <span>3D-Artist · XR-Developer · E-Learning Designer</span>
@@ -167,6 +172,19 @@
   for(let i=0;i<120;i++)particles.push(new Particle());
   function animate(){ctx.clearRect(0,0,W,H);drawConnections();particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
   animate();
+
+  function openModal(ytUrl){
+    const id=ytUrl.includes('youtu.be')?ytUrl.split('/').pop():new URL(ytUrl).searchParams.get('v');
+    document.getElementById('modal-video').innerHTML=`<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allowfullscreen allow="autoplay"></iframe>`;
+    document.getElementById('modal').classList.add('open');
+  }
+  function closeModal(e){
+    if(!e||e.target===document.getElementById('modal')||e.target.classList.contains('modal-close')){
+      document.getElementById('modal').classList.remove('open');
+      document.getElementById('modal-video').innerHTML='';
+    }
+  }
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
   const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.05});
   document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
