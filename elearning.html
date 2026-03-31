@@ -165,6 +165,7 @@
 
 <footer>
   <span>© 2026 Alexander Kusnezow</span>
+  <span style="color:var(--muted);font-size:.72rem;">Designed & built by Alexander Kusnezow · Made with <a href="https://claude.ai" target="_blank" style="color:var(--accent-light);">Claude AI</a></span>
   <span>3D-Artist · XR-Developer · E-Learning Designer</span>
 </footer>
 
@@ -173,6 +174,7 @@
   document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';});
   const pt=document.getElementById('page-transition');
   window.addEventListener('load',()=>{pt.style.transition='none';pt.classList.remove('out');});
+  window.addEventListener('pageshow',(e)=>{if(e.persisted||performance.getEntriesByType('navigation')[0]?.type==='back_forward'){pt.style.transition='none';pt.classList.remove('out');}});
   document.querySelectorAll('a.transition-link').forEach(a=>{
     a.addEventListener('click',e=>{const href=a.getAttribute('href');if(href&&!href.startsWith('#')){e.preventDefault();pt.style.transition='opacity .4s ease';pt.classList.add('out');setTimeout(()=>window.location.href=href,400);}});
   });
