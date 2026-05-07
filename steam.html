@@ -24,12 +24,12 @@
   nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,16,0.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:padding .3s;}
   nav.scrolled{padding:.8rem 4rem;background:rgba(8,8,16,.97);}
   .nav-name{font-size:.95rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;}
-  .nav-right{display:flex;align-items:center;gap:2.5rem;}
-  .nav-links{display:flex;gap:1.45rem;}
+  .nav-right{display:flex;align-items:center;gap:2rem;}
+  .nav-links{display:flex;gap:1.45rem;align-items:center;}
   .nav-links a{color:var(--muted);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;white-space:nowrap;position:relative;}
   .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent-light);transition:width .3s;}
-  .nav-links a:hover{color:var(--accent-light);}
-  .nav-links a:hover::after{width:100%;}
+  .nav-links a:hover,.nav-links a.active{color:var(--accent-light);}
+  .nav-links a:hover::after,.nav-links a.active::after{width:100%;}
 
   header{position:relative;z-index:1;padding:10rem 4rem 5rem;text-align:center;border-bottom:1px solid var(--border);}
   .back-link{display:inline-flex;align-items:center;gap:.5rem;color:var(--muted);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2rem;transition:color .3s;}
@@ -58,6 +58,20 @@
     body{cursor:auto;}#cursor,#cursor-ring{display:none;}
   }
   @media(max-width:600px){.nav-links{display:none;}}
+
+  /* MOBILE MENU */
+  .menu-toggle{display:none;width:36px;height:32px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:5px;padding:0;}
+  .menu-toggle span{width:16px;height:1px;background:var(--text);display:block;transition:transform .25s,opacity .25s;}
+  .menu-toggle.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+  .menu-toggle.open span:nth-child(2){opacity:0;}
+  .menu-toggle.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+  .mobile-menu{display:none;position:fixed;top:4.6rem;right:1.5rem;left:1.5rem;z-index:99;background:rgba(14,14,26,.98);border:1px solid var(--border);backdrop-filter:blur(16px);padding:1rem;box-shadow:0 20px 50px rgba(0,0,0,.35);}
+  .mobile-menu.open{display:block;}
+  .mobile-menu a{display:block;padding:.9rem 1rem;border-bottom:1px solid var(--border);color:var(--muted);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;transition:color .2s,background .2s;}
+  .mobile-menu a:last-child{border-bottom:none;}
+  .mobile-menu a:hover,.mobile-menu a.active{color:var(--accent-light);background:rgba(109,40,217,.08);}
+
+  @media(max-width:900px){.menu-toggle{display:flex;}.mobile-menu{top:4.25rem;}}
 </style>
 </head>
 <body>
@@ -75,18 +89,27 @@
       <a href="3d.html" class="transition-link" data-de="3D Design & Modellierung" data-en="3D Design & Modelling">3D Design & Modellierung</a>
       <a href="elearning.html" class="transition-link" data-de="E-Learning & Content Creation" data-en="E-Learning & Content Creation">E-Learning & Content Creation</a>
       <a href="mediengestaltung.html" class="transition-link" data-de="Mediengestaltung" data-en="Media Design">Mediengestaltung</a>
-      <a href="steam.html" class="transition-link" data-de="Steam Artworks" data-en="Steam Artworks">Steam Artworks</a>
+      <a href="steam.html" class="transition-link active" data-de="Steam Artworks" data-en="Steam Artworks">Steam Artworks</a>
     </div>
     <div class="lang-toggle">
       <button class="lang-btn active" onclick="setLang('de')">DE</button>
       <button class="lang-btn" onclick="setLang('en')">EN</button>
     </div>
+    <button class="menu-toggle" id="menu-toggle" onclick="toggleMobileMenu()" aria-label="Menü öffnen"><span></span><span></span><span></span></button>
   </div>
 </nav>
-
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html" class="transition-link" data-de="Startseite" data-en="Home">Startseite</a>
+  <a href="immersive.html" class="transition-link" data-de="Immersive Welten & Filme" data-en="Immersive Worlds & Films">Immersive Welten & Filme</a>
+  <a href="ai.html" class="transition-link" data-de="KI Projekte" data-en="AI Projects">KI Projekte</a>
+  <a href="3d.html" class="transition-link" data-de="3D Design & Modellierung" data-en="3D Design & Modelling">3D Design & Modellierung</a>
+  <a href="elearning.html" class="transition-link" data-de="E-Learning & Content Creation" data-en="E-Learning & Content Creation">E-Learning & Content Creation</a>
+  <a href="mediengestaltung.html" class="transition-link" data-de="Mediengestaltung" data-en="Media Design">Mediengestaltung</a>
+  <a href="steam.html" class="transition-link active" data-de="Steam Artworks" data-en="Steam Artworks">Steam Artworks</a>
+</div>
 <header>
   <a href="index.html" class="back-link transition-link" data-de="← Zurück zur Übersicht" data-en="← Back to Overview">← Zurück zur Übersicht</a>
-  <div class="page-label" data-de="Kategorie 05" data-en="Category 05">Kategorie 05</div>
+  <div class="page-label" data-de="Kategorie 06" data-en="Category 06">Kategorie 06</div>
   <h1 class="page-title">Steam Artworks</h1>
   <p class="page-desc" data-de="Community Design, Profil-Animationen und Digital Art – individuelle Artworks für die Gaming-Community mit Fokus auf Lighting-Effekte und Motion Design." data-en="Community design, profile animations and digital art – individual artworks for the gaming community with a focus on lighting effects and motion design.">Community Design, Profil-Animationen und Digital Art – individuelle Artworks für die Gaming-Community mit Fokus auf Lighting-Effekte und Motion Design.</p>
 </header>
@@ -132,6 +155,23 @@
 
   const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.05});
   document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+  function toggleMobileMenu(){
+    const menu=document.getElementById('mobile-menu');
+    const btn=document.getElementById('menu-toggle');
+    if(!menu||!btn) return;
+    menu.classList.toggle('open');
+    btn.classList.toggle('open');
+  }
+  document.querySelectorAll('.mobile-menu a').forEach(link=>{
+    link.addEventListener('click',()=>{
+      const menu=document.getElementById('mobile-menu');
+      const btn=document.getElementById('menu-toggle');
+      if(menu) menu.classList.remove('open');
+      if(btn) btn.classList.remove('open');
+    });
+  });
+
 </script>
 </body>
 </html>
