@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>KI Projekte & Generative Medien | Alexander Kusnezow</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  a{color:inherit;text-decoration:none;}
+  :root{--bg:#080810;--bg2:#0e0e1a;--text:#f0f0f0;--muted:#777;--accent:#6d28d9;--accent-light:#8b5cf6;--accent-glow:rgba(109,40,217,.35);--border:#1e1e2e;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden;cursor:none;}
+
+  #page-transition{position:fixed;inset:0;background:var(--bg);z-index:9999;pointer-events:none;opacity:0;transition:opacity .4s ease;}
+  #page-transition.out{opacity:1;pointer-events:all;}
+  #cursor{position:fixed;width:12px;height:12px;background:var(--accent-light);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+  #cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(139,92,246,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .1s ease,top .1s ease,width .2s,height .2s;}
+  #particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+  .lang-toggle{display:flex;gap:0;border:1px solid var(--border);overflow:hidden;}
+  .lang-btn{padding:.3rem .7rem;font-size:.72rem;letter-spacing:.1em;background:none;border:none;color:var(--muted);cursor:pointer;transition:all .2s;text-transform:uppercase;}
+  .lang-btn.active{background:var(--accent);color:#fff;}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,16,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:padding .3s;}
+  nav.scrolled{padding:.8rem 4rem;background:rgba(8,8,16,.97);}
+  .nav-name{font-size:.95rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;}
+  .nav-right{display:flex;align-items:center;gap:2rem;}
+  .nav-links{display:flex;gap:1.45rem;align-items:center;}
+  .nav-links a{color:var(--muted);font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;transition:color .3s;white-space:nowrap;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent-light);transition:width .3s;}
+  .nav-links a:hover,.nav-links a.active{color:var(--accent-light);}
+  .nav-links a:hover::after,.nav-links a.active::after{width:100%;}
+
+  header{position:relative;z-index:1;padding:10rem 4rem 5rem;text-align:center;border-bottom:1px solid var(--border);}
+  .back-link{display:inline-flex;align-items:center;gap:.5rem;color:var(--muted);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2rem;transition:color .3s;}
+  .back-link:hover{color:var(--accent-light);}
+  .page-label{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-light);margin-bottom:1rem;}
+  .page-title{font-size:clamp(2rem,6vw,4.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;}
+  .page-desc{color:#aaa;font-size:.95rem;max-width:780px;margin:0 auto;line-height:1.8;}
+
+  main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:5rem 4rem;}
+  .section-head{margin-bottom:2.4rem;display:flex;justify-content:space-between;gap:2rem;align-items:flex-end;}
+  .section-kicker{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-light);margin-bottom:.8rem;}
+  .section-title{font-size:clamp(1.7rem,4vw,2.7rem);font-weight:700;letter-spacing:-.02em;}
+  .section-desc{color:#aaa;font-size:.9rem;line-height:1.75;max-width:520px;}
+
+  .highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:6rem;}
+  .highlight-card{background:var(--bg2);border:1px solid var(--border);overflow:hidden;transition:border-color .3s,transform .4s,box-shadow .4s;}
+  .highlight-card:hover{border-color:var(--accent);transform:translateY(-6px);box-shadow:0 20px 50px rgba(109,40,217,.25);}
+  .highlight-img{position:relative;width:100%;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#05050a;}
+  .highlight-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s,filter .4s;}
+  .highlight-card:hover .highlight-img img{transform:scale(1.05);filter:brightness(.78);}
+  .highlight-body{padding:1.4rem 1.5rem 1.6rem;}
+  .highlight-label{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-light);margin-bottom:.6rem;}
+  .highlight-title{font-size:1.1rem;font-weight:700;margin-bottom:.7rem;line-height:1.3;}
+  .highlight-text{color:#999;font-size:.86rem;line-height:1.7;}
+
+  .category{padding:5rem 0;border-top:1px solid var(--border);}
+  .project-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem;align-items:start;}
+  .project-card{background:var(--bg2);border:1px solid var(--border);overflow:hidden;transition:border-color .3s,transform .35s,box-shadow .35s;}
+  .project-card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 12px 35px rgba(109,40,217,.2);}
+  .project-thumb{position:relative;width:100%;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#05050a;}
+  .project-thumb.wide{aspect-ratio:16/9;}
+  .project-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .45s,filter .35s;}
+  .project-card:hover .project-thumb img{transform:scale(1.05);filter:brightness(.75);}
+  .project-body{padding:1.1rem 1.2rem 1.3rem;}
+  .project-title{font-size:.98rem;font-weight:650;margin-bottom:.5rem;line-height:1.35;}
+  .project-tags{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);line-height:1.6;}
+
+  .open-overlay{position:absolute;inset:0;background:rgba(109,40,217,.12);opacity:0;transition:opacity .3s;display:flex;align-items:center;justify-content:center;}
+  .project-card:hover .open-overlay,.highlight-card:hover .open-overlay{opacity:1;}
+  .open-icon{width:46px;height:46px;border-radius:50%;background:rgba(109,40,217,.86);display:flex;align-items:center;justify-content:center;border:1px solid var(--accent-light);}
+  .open-icon svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;}
+
+  .workflow{padding:5rem 0 1rem;border-top:1px solid var(--border);}
+  .workflow-box{background:linear-gradient(135deg,rgba(109,40,217,.18),rgba(14,14,26,.9));border:1px solid rgba(139,92,246,.35);padding:2.2rem;display:grid;grid-template-columns:1fr 1.3fr;gap:3rem;align-items:start;}
+  .workflow-title{font-size:clamp(1.5rem,3vw,2.3rem);font-weight:700;line-height:1.2;margin-bottom:1rem;}
+  .workflow-text{color:#aaa;font-size:.9rem;line-height:1.8;}
+  .workflow-tags{display:flex;flex-wrap:wrap;gap:.7rem;}
+  .workflow-tag{padding:.5rem 1rem;border:1px solid rgba(139,92,246,.35);background:rgba(8,8,16,.5);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-light);}
+
+  .lightbox{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.92);backdrop-filter:blur(10px);align-items:center;justify-content:center;}
+  .lightbox.open{display:flex;}
+  .lightbox-inner{position:relative;max-width:90vw;max-height:90vh;}
+  .lightbox-inner img{max-width:90vw;max-height:86vh;object-fit:contain;border:1px solid var(--border);background:#05050a;}
+  .lb-close{position:absolute;top:-2.5rem;right:0;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;opacity:.75;}
+  .lb-close:hover{opacity:1;}
+  .lb-prev,.lb-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(109,40,217,.72);border:1px solid rgba(139,92,246,.8);color:#fff;font-size:1.5rem;cursor:pointer;padding:.6rem 1rem;}
+  .lb-prev{left:-3.5rem;}.lb-next{right:-3.5rem;}
+  .lb-caption{position:absolute;left:0;bottom:-3.2rem;color:#aaa;font-size:.82rem;line-height:1.5;}
+  .lb-counter{position:absolute;right:0;bottom:-2rem;font-size:.75rem;color:var(--muted);}
+
+  footer{position:relative;z-index:1;padding:2rem 4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;}
+  footer span{font-size:.75rem;color:var(--muted);}
+  .fade-in{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease;}
+  .fade-in.visible{opacity:1;transform:translateY(0);}
+
+  @media(max-width:1180px){
+    .nav-links{gap:.9rem;}
+    .nav-links a{font-size:.66rem;}
+    .highlights{grid-template-columns:1fr 1fr;}
+    .workflow-box{grid-template-columns:1fr;gap:1.6rem;}
+  }
+  @media(max-width:900px){
+    nav{padding:1rem 1.5rem;}.nav-links{display:none;}
+    header,main{padding-left:1.5rem;padding-right:1.5rem;}
+    .highlights{grid-template-columns:1fr;}
+    .section-head{display:block;}
+    .section-desc{margin-top:1rem;}
+    .lb-prev{left:-2rem;}.lb-next{right:-2rem;}
+    footer{padding:1.5rem;flex-direction:column;gap:.5rem;}
+    body{cursor:auto;}#cursor,#cursor-ring{display:none;}
+  }
+  @media(max-width:600px){
+    .project-grid{grid-template-columns:1fr;}
+    .workflow-box{padding:1.4rem;}
+    .lb-prev,.lb-next{display:none;}
+    .lb-caption{position:static;margin-top:1rem;}
+    .lb-counter{position:static;margin-top:.5rem;}
+  }
+</style>
+</head>
+<body>
+<div id="page-transition"></div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<canvas id="particles"></canvas>
+
+<nav id="nav">
+  <a href="index.html" class="nav-name transition-link">Alexander Kusnezow</a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="immersive.html" class="transition-link" data-de="Immersive Welten & Filme" data-en="Immersive Worlds & Films">Immersive Welten & Filme</a>
+      <a href="ai.html" class="transition-link active" data-de="KI Projekte" data-en="AI Projects">KI Projekte</a>
+      <a href="3d.html" class="transition-link" data-de="3D Design & Modellierung" data-en="3D Design & Modelling">3D Design & Modellierung</a>
+      <a href="elearning.html" class="transition-link" data-de="E-Learning & Content Creation" data-en="E-Learning & Content Creation">E-Learning & Content Creation</a>
+      <a href="mediengestaltung.html" class="transition-link" data-de="Mediengestaltung" data-en="Media Design">Mediengestaltung</a>
+      <a href="steam.html" class="transition-link" data-de="Steam Artworks" data-en="Steam Artworks">Steam Artworks</a>
+    </div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('de')">DE</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <a href="index.html" class="back-link transition-link" data-de="← Zurück zur Übersicht" data-en="← Back to Overview">← Zurück zur Übersicht</a>
+  <div class="page-label" data-de="Kategorie 06" data-en="Category 06">Kategorie 06</div>
+  <h1 class="page-title" data-de="KI Projekte & Generative Medien" data-en="AI Projects & Generative Media">KI Projekte & Generative Medien</h1>
+  <p class="page-desc" data-de="KI gestützte Visuals, Kampagnenideen und Designkonzepte für Werbung, Social Media, E-Learning und digitale Medien. Der Fokus liegt auf Ideenentwicklung, Prompting, Bildauswahl, visueller Richtung und kreativer Weiterverarbeitung." data-en="AI assisted visuals, campaign ideas and design concepts for advertising, social media, e-learning and digital media. The focus is on ideation, prompting, image selection, visual direction and creative refinement.">KI gestützte Visuals, Kampagnenideen und Designkonzepte für Werbung, Social Media, E-Learning und digitale Medien. Der Fokus liegt auf Ideenentwicklung, Prompting, Bildauswahl, visueller Richtung und kreativer Weiterverarbeitung.</p>
+</header>
+
+<main>
+  <section class="fade-in">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker" data-de="Auswahl" data-en="Selection">Auswahl</div>
+        <h2 class="section-title" data-de="Featured AI Concepts" data-en="Featured AI Concepts">Featured AI Concepts</h2>
+      </div>
+      <p class="section-desc" data-de="Drei starke Motive als Einstieg in den Bereich. Sie zeigen unterschiedliche Einsatzfelder von generativer KI in Werbung, Branding und Produktkommunikation." data-en="Three strong visuals introduce this section. They show different use cases for generative AI in advertising, branding and product communication.">Drei starke Motive als Einstieg in den Bereich. Sie zeigen unterschiedliche Einsatzfelder von generativer KI in Werbung, Branding und Produktkommunikation.</p>
+    </div>
+
+    <div class="highlights">
+      <article class="highlight-card">
+        <div class="highlight-img" onclick="openLightboxBySrc('media/ai/2.jpg','Noir Éclat Luxury Campaign','Luxury Branding · Product Visual · Campaign Look')">
+          <img src="media/ai/2.jpg" alt="Noir Éclat Luxury Campaign"/>
+          <div class="open-overlay"><div class="open-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        </div>
+        <div class="highlight-body">
+          <div class="highlight-label">Luxury Branding</div>
+          <h3 class="highlight-title">Noir Éclat Luxury Campaign</h3>
+          <p class="highlight-text" data-de="Ein hochwertiges Parfum Visual mit Fokus auf edle Lichtführung, Premium Look und klarer Markenwirkung." data-en="A premium perfume visual focused on elegant lighting, a luxury look and clear brand impact.">Ein hochwertiges Parfum Visual mit Fokus auf edle Lichtführung, Premium Look und klarer Markenwirkung.</p>
+        </div>
+      </article>
+
+      <article class="highlight-card">
+        <div class="highlight-img" onclick="openLightboxBySrc('media/ai/8.jpg','Hexbyte Gaming Mouse Campaign','AI Advertising · Tech Product · Visual Branding')">
+          <img src="media/ai/8.jpg" alt="Hexbyte Gaming Mouse Campaign"/>
+          <div class="open-overlay"><div class="open-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        </div>
+        <div class="highlight-body">
+          <div class="highlight-label">Tech Advertising</div>
+          <h3 class="highlight-title">Hexbyte Gaming Mouse Campaign</h3>
+          <p class="highlight-text" data-de="Ein technisches Produktvisual mit Gaming Atmosphäre, Neonlicht und klarer Zielgruppenansprache." data-en="A technical product visual with a gaming atmosphere, neon lighting and a clear target audience focus.">Ein technisches Produktvisual mit Gaming Atmosphäre, Neonlicht und klarer Zielgruppenansprache.</p>
+        </div>
+      </article>
+
+      <article class="highlight-card">
+        <div class="highlight-img" onclick="openLightboxBySrc('media/ai/30.jpg','VoltRush Energy Campaign','AI Advertising · Product Visual · Social Media Concept')">
+          <img src="media/ai/30.jpg" alt="VoltRush Energy Campaign"/>
+          <div class="open-overlay"><div class="open-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        </div>
+        <div class="highlight-body">
+          <div class="highlight-label">Energy Campaign</div>
+          <h3 class="highlight-title">VoltRush Energy Campaign</h3>
+          <p class="highlight-text" data-de="Ein dynamisches Kampagnenmotiv für eine fiktive Energy Marke mit Fokus auf Energie, Kontrast und Social Media Wirkung." data-en="A dynamic campaign visual for a fictional energy brand focused on energy, contrast and social media impact.">Ein dynamisches Kampagnenmotiv für eine fiktive Energy Marke mit Fokus auf Energie, Kontrast und Social Media Wirkung.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="category fade-in">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">01</div>
+        <h2 class="section-title">AI Advertising Concepts</h2>
+      </div>
+      <p class="section-desc" data-de="Fiktive Kampagnenmotive für Produkte, Marken und digitale Werbeformate. Der Schwerpunkt liegt auf visueller Markenwirkung und aufmerksamkeitsstarker Produktinszenierung." data-en="Fictional campaign visuals for products, brands and digital advertising formats. The focus is on visual brand impact and attention grabbing product presentation.">Fiktive Kampagnenmotive für Produkte, Marken und digitale Werbeformate. Der Schwerpunkt liegt auf visueller Markenwirkung und aufmerksamkeitsstarker Produktinszenierung.</p>
+    </div>
+    <div class="project-grid" id="grid-advertising"></div>
+  </section>
+
+  <section class="category fade-in">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">02</div>
+        <h2 class="section-title">Product Visuals & Branding</h2>
+      </div>
+      <p class="section-desc" data-de="Produktvisualisierungen für Getränke, Beauty, Kaffee und Tech Produkte. Die Motive zeigen, wie generative KI für Branding, E-Commerce und Produktkommunikation eingesetzt werden kann." data-en="Product visualizations for beverages, beauty, coffee and tech products. The visuals show how generative AI can support branding, e-commerce and product communication.">Produktvisualisierungen für Getränke, Beauty, Kaffee und Tech Produkte. Die Motive zeigen, wie generative KI für Branding, E-Commerce und Produktkommunikation eingesetzt werden kann.</p>
+    </div>
+    <div class="project-grid" id="grid-products"></div>
+  </section>
+
+  <section class="category fade-in">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">03</div>
+        <h2 class="section-title">Social Media & Content Assets</h2>
+      </div>
+      <p class="section-desc" data-de="Digitale Werbemittel, Thumbnails und Social Media Visuals für Lerninhalte, Kampagnen und Content Formate." data-en="Digital advertising assets, thumbnails and social media visuals for learning content, campaigns and content formats.">Digitale Werbemittel, Thumbnails und Social Media Visuals für Lerninhalte, Kampagnen und Content Formate.</p>
+    </div>
+    <div class="project-grid" id="grid-social"></div>
+  </section>
+
+  <section class="category fade-in">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">04</div>
+        <h2 class="section-title">Moodboards & Visual Direction</h2>
+      </div>
+      <p class="section-desc" data-de="Konzeptboards für Marken, Lernplattformen und Gaming Szenarien. Sie zeigen Farbwelt, Bildsprache, Layoutideen und visuelle Richtung." data-en="Concept boards for brands, learning platforms and gaming scenarios. They show color direction, imagery, layout ideas and visual direction.">Konzeptboards für Marken, Lernplattformen und Gaming Szenarien. Sie zeigen Farbwelt, Bildsprache, Layoutideen und visuelle Richtung.</p>
+    </div>
+    <div class="project-grid" id="grid-moodboards"></div>
+  </section>
+
+  <section class="category fade-in">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">05</div>
+        <h2 class="section-title">UI, Web & Digital Concepts</h2>
+      </div>
+      <p class="section-desc" data-de="Digitale Konzeptvisuals für Website Layouts, Landingpages und App Oberflächen. Der Fokus liegt auf Struktur, Interface Wirkung und nutzbarer digitaler Gestaltung." data-en="Digital concept visuals for website layouts, landing pages and app interfaces. The focus is on structure, interface impact and usable digital design.">Digitale Konzeptvisuals für Website Layouts, Landingpages und App Oberflächen. Der Fokus liegt auf Struktur, Interface Wirkung und nutzbarer digitaler Gestaltung.</p>
+    </div>
+    <div class="project-grid" id="grid-ui"></div>
+  </section>
+
+  <section class="category fade-in">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">06</div>
+        <h2 class="section-title">Characters, Posters & Key Visuals</h2>
+      </div>
+      <p class="section-desc" data-de="Kreative Konzeptarbeiten für Charakterentwicklung, Posterdesign und cinematische Key Visuals." data-en="Creative concept work for character development, poster design and cinematic key visuals.">Kreative Konzeptarbeiten für Charakterentwicklung, Posterdesign und cinematische Key Visuals.</p>
+    </div>
+    <div class="project-grid" id="grid-concepts"></div>
+  </section>
+
+  <section class="workflow fade-in">
+    <div class="workflow-box">
+      <div>
+        <h2 class="workflow-title" data-de="Workflow & kreativer Anteil" data-en="Workflow & Creative Contribution">Workflow & kreativer Anteil</h2>
+        <p class="workflow-text" data-de="Die gezeigten Arbeiten wurden mit KI Unterstützung erstellt und anschließend kuratiert, bewertet und gestalterisch eingeordnet. Mein Fokus liegt auf der Entwicklung klarer visueller Konzepte, passender Bildsprache und nutzbarer Assets für digitale Kommunikation." data-en="The works shown were created with AI assistance and then curated, evaluated and placed in a design context. My focus is on developing clear visual concepts, suitable imagery and usable assets for digital communication.">Die gezeigten Arbeiten wurden mit KI Unterstützung erstellt und anschließend kuratiert, bewertet und gestalterisch eingeordnet. Mein Fokus liegt auf der Entwicklung klarer visueller Konzepte, passender Bildsprache und nutzbarer Assets für digitale Kommunikation.</p>
+      </div>
+      <div class="workflow-tags">
+        <span class="workflow-tag" data-de="Konzeptentwicklung" data-en="Concept Development">Konzeptentwicklung</span>
+        <span class="workflow-tag">Prompting</span>
+        <span class="workflow-tag" data-de="Bildauswahl" data-en="Image Selection">Bildauswahl</span>
+        <span class="workflow-tag" data-de="Art Direction" data-en="Art Direction">Art Direction</span>
+        <span class="workflow-tag">Layout</span>
+        <span class="workflow-tag" data-de="Komposition" data-en="Composition">Komposition</span>
+        <span class="workflow-tag" data-de="Nachbearbeitung" data-en="Post Production">Nachbearbeitung</span>
+        <span class="workflow-tag" data-de="Web & Social Export" data-en="Web & Social Export">Web & Social Export</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner">
+    <button class="lb-close" onclick="closeLightbox(event)">×</button>
+    <button class="lb-prev" onclick="navigateLightbox(-1,event)">‹</button>
+    <img id="lb-img" src="" alt=""/>
+    <button class="lb-next" onclick="navigateLightbox(1,event)">›</button>
+    <div class="lb-caption" id="lb-caption"></div>
+    <div class="lb-counter" id="lb-counter"></div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 Alexander Kusnezow</span>
+  <span data-de="KI Projekte & Generative Medien" data-en="AI Projects & Generative Media">KI Projekte & Generative Medien</span>
+</footer>
+
+<script>
+  const projects = [
+    {cat:'advertising',img:'1.jpg',title:'PulseCore Headset Campaign',tags:'Gaming · Tech Advertising · Product Visual'},
+    {cat:'advertising',img:'2.jpg',title:'Noir Éclat Luxury Campaign',tags:'Luxury Branding · Parfum · Campaign Look'},
+    {cat:'advertising',img:'7.jpg',title:'Hexbyte Product Scene',tags:'Gaming · Product Mood · Neon Look'},
+    {cat:'advertising',img:'8.jpg',title:'Hexbyte Gaming Mouse Campaign',tags:'Tech Product · AI Advertising · Visual Branding'},
+    {cat:'advertising',img:'9.jpg',title:'Hexbyte Feature Visual',tags:'Product Info · Gaming Ad · Campaign Layout'},
+    {cat:'advertising',img:'10.jpg',title:'StrideLab Sneaker Ad',tags:'Sneaker · Sports Branding · Product Campaign'},
+    {cat:'advertising',img:'11.jpg',title:'StrideLab Lifestyle Visual',tags:'Lifestyle · Urban Campaign · Social Ad'},
+    {cat:'advertising',img:'30.jpg',title:'VoltRush Energy Campaign',tags:'Energy Drink · Product Ad · Social Media'},
+    {cat:'advertising',img:'34.jpg',title:'VYRO Taste The Glow',tags:'Beverage Campaign · Neon Look · Key Visual'},
+
+    {cat:'products',img:'12.jpg',title:'Limora Citrus Campaign',tags:'Beverage · Product Visual · Fresh Branding'},
+    {cat:'products',img:'13.jpg',title:'Limora Product Poster',tags:'Drink Poster · Campaign Asset · Branding'},
+    {cat:'products',img:'36.jpg',title:'Auralyn Headphones',tags:'Tech Product · Premium Visual · Studio Look'},
+    {cat:'products',img:'37.jpg',title:'Roastory Coffee Concept',tags:'Coffee Branding · Product Mood · Lifestyle'},
+    {cat:'products',img:'38.jpg',title:'Limora Skincare Visual',tags:'Beauty · Clean Branding · Product Shot'},
+    {cat:'products',img:'40.jpg',title:'Velora Serum Campaign',tags:'Skincare · Premium Beauty · Product Ad'},
+
+    {cat:'social',img:'3.jpg',title:'Bootsschule X Social Ad',tags:'Social Media · Campaign Asset · Promotion'},
+    {cat:'social',img:'6.jpg',title:'Bootsschule X Social Ad Variante',tags:'Social Media · Produktwerbung · Online Kurs'},
+    {cat:'social',img:'29.jpg',title:'Eignungstest Thumbnail',tags:'YouTube · E-Learning · Thumbnail Concept',wide:true},
+    {cat:'social',img:'33.jpg',title:'Psychologischer Einstellungstest Thumbnail v1',tags:'Educational Content · Thumbnail · Visual Hook',wide:true},
+    {cat:'social',img:'35.jpg',title:'Psychologischer Einstellungstest Thumbnail v2',tags:'E-Learning · Thumbnail · Content Design',wide:true},
+
+    {cat:'moodboards',img:'14.jpg',title:'Aurelle Skin Moodboard',tags:'Beauty Branding · Visual Direction · Moodboard',wide:true},
+    {cat:'moodboards',img:'15.jpg',title:'E-Learning Platform Moodboard',tags:'Learning Design · UI Mood · Visual System',wide:true},
+    {cat:'moodboards',img:'16.jpg',title:'Gaming Brand Moodboard',tags:'Gaming Brand · Color System · Campaign Look',wide:true},
+
+    {cat:'ui',img:'18.jpg',title:'Energy Drink Landingpage Concept',tags:'Web Concept · Campaign Page · Digital Design'},
+    {cat:'ui',img:'20.jpg',title:'E-Learning App UI Concept',tags:'App Design · Mobile Learning · Interface Direction',wide:true},
+
+    {cat:'concepts',img:'21.jpg',title:'Future Frame Festival Poster',tags:'Poster Design · Event Branding · Key Visual'},
+    {cat:'concepts',img:'23.jpg',title:'Educator Character Sheet',tags:'Character Design · E-Learning · Visual Development',wide:true},
+    {cat:'concepts',img:'24.jpg',title:'Echoes of Tomorrow Poster',tags:'Sci-Fi Poster · Cinematic Look · Key Visual'}
+  ];
+
+  const gridMap = {
+    advertising:'grid-advertising',
+    products:'grid-products',
+    social:'grid-social',
+    moodboards:'grid-moodboards',
+    ui:'grid-ui',
+    concepts:'grid-concepts'
+  };
+
+  projects.forEach((p,index)=>{
+    const grid = document.getElementById(gridMap[p.cat]);
+    if(!grid) return;
+    const card = document.createElement('article');
+    card.className = 'project-card';
+    card.innerHTML = `
+      <div class="project-thumb ${p.wide ? 'wide' : ''}" onclick="openLightbox(${index})">
+        <img src="media/ai/${p.img}" alt="${p.title}" loading="lazy"/>
+        <div class="open-overlay"><div class="open-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">${p.title}</h3>
+        <div class="project-tags">${p.tags}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  let currentIndex = 0;
+  let lightboxItems = projects.map(p=>({src:`media/ai/${p.img}`,title:p.title,tags:p.tags}));
+
+  function openLightbox(index){
+    currentIndex = index;
+    renderLightbox();
+    document.getElementById('lightbox').classList.add('open');
+  }
+
+  function openLightboxBySrc(src,title,tags){
+    const found = lightboxItems.findIndex(item=>item.src===src);
+    currentIndex = found >= 0 ? found : 0;
+    renderLightbox(title,tags,src);
+    document.getElementById('lightbox').classList.add('open');
+  }
+
+  function renderLightbox(titleOverride,tagsOverride,srcOverride){
+    const item = lightboxItems[currentIndex];
+    document.getElementById('lb-img').src = srcOverride || item.src;
+    document.getElementById('lb-img').alt = titleOverride || item.title;
+    document.getElementById('lb-caption').innerHTML = `<strong>${titleOverride || item.title}</strong><br>${tagsOverride || item.tags}`;
+    document.getElementById('lb-counter').textContent = `${currentIndex + 1} / ${lightboxItems.length}`;
+  }
+
+  function closeLightbox(e){
+    if(e) e.stopPropagation();
+    document.getElementById('lightbox').classList.remove('open');
+  }
+
+  function navigateLightbox(dir,e){
+    if(e) e.stopPropagation();
+    currentIndex = (currentIndex + dir + lightboxItems.length) % lightboxItems.length;
+    renderLightbox();
+  }
+
+  document.addEventListener('keydown',e=>{
+    const lb = document.getElementById('lightbox');
+    if(!lb.classList.contains('open')) return;
+    if(e.key==='Escape') closeLightbox(e);
+    if(e.key==='ArrowLeft') navigateLightbox(-1,e);
+    if(e.key==='ArrowRight') navigateLightbox(1,e);
+  });
+
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove',e=>{
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    ring.style.left = e.clientX + 'px';
+    ring.style.top = e.clientY + 'px';
+  });
+
+  document.querySelectorAll('a,button,.project-thumb,.highlight-img').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cursor.style.width='18px';cursor.style.height='18px';ring.style.width='48px';ring.style.height='48px';});
+    el.addEventListener('mouseleave',()=>{cursor.style.width='12px';cursor.style.height='12px';ring.style.width='36px';ring.style.height='36px';});
+  });
+
+  window.addEventListener('scroll',()=>{
+    document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
+  });
+
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  },{threshold:.12});
+  document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+  document.querySelectorAll('.transition-link').forEach(link=>{
+    link.addEventListener('click',e=>{
+      const href = link.getAttribute('href');
+      if(!href || href.startsWith('#')) return;
+      e.preventDefault();
+      document.getElementById('page-transition').classList.add('out');
+      setTimeout(()=>window.location.href=href,350);
+    });
+  });
+
+  function setLang(lang){
+    document.querySelectorAll('.lang-btn').forEach(btn=>btn.classList.remove('active'));
+    document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+    document.querySelectorAll('[data-de]').forEach(el=>{
+      const value = el.getAttribute(`data-${lang}`);
+      if(value) el.textContent = value;
+    });
+    localStorage.setItem('portfolioLang',lang);
+  }
+
+  const savedLang = localStorage.getItem('portfolioLang');
+  if(savedLang) setLang(savedLang);
+
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;initParticles();}
+  function initParticles(){
+    particles=[];
+    const count = Math.min(80,Math.floor(window.innerWidth/20));
+    for(let i=0;i<count;i++){
+      particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.5+.3,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,a:Math.random()*.45+.12});
+    }
+  }
+  function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>canvas.width)p.vx*=-1;
+      if(p.y<0||p.y>canvas.height)p.vy*=-1;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(139,92,246,${p.a})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(animate);
+  }
+  window.addEventListener('resize',resize);
+  resize();
+  animate();
+</script>
+</body>
+</html>
