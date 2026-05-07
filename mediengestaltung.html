@@ -35,7 +35,22 @@
   .back-link{display:inline-flex;align-items:center;gap:.5rem;color:var(--muted);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2rem;transition:color .3s;}
   .back-link:hover{color:var(--accent-light);}
   .page-label{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-light);margin-bottom:1rem;}
-  .page-title{font-size:clamp(2rem,6vw,4.5rem);font-weight:700;letter-spacing:-.02em;}
+  .page-title{font-size:clamp(2rem,6vw,4.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;}
+  .page-desc{color:#aaa;font-size:.95rem;max-width:760px;margin:0 auto;line-height:1.8;}
+
+  .overview-section{position:relative;z-index:1;padding:5rem 4rem;border-top:1px solid var(--border);max-width:1400px;margin:0 auto;}
+  .overview-head{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;margin-bottom:2.5rem;}
+  .overview-kicker{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-light);margin-bottom:.8rem;}
+  .overview-title{font-size:clamp(1.7rem,4vw,2.7rem);font-weight:700;letter-spacing:-.02em;}
+  .overview-desc{color:#aaa;font-size:.9rem;line-height:1.75;max-width:560px;}
+  .overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+  .overview-card{background:var(--bg2);border:1px solid var(--border);padding:1.3rem 1.4rem;transition:border-color .3s,transform .3s,box-shadow .3s;}
+  .overview-card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 12px 35px rgba(109,40,217,.2);}
+  .overview-num{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-light);margin-bottom:.7rem;}
+  .overview-card-title{font-size:1rem;font-weight:650;margin-bottom:.65rem;line-height:1.35;}
+  .overview-card-tags{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);line-height:1.6;}
+  .section-tags{display:flex;flex-wrap:wrap;gap:.55rem;margin:-1.2rem 0 2rem;}
+  .section-tag{padding:.35rem .8rem;border:1px solid rgba(139,92,246,.35);background:rgba(109,40,217,.08);color:var(--accent-light);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;}
 
   .project-section{position:relative;z-index:1;padding:6rem 4rem;border-top:1px solid var(--border);max-width:1400px;margin:0 auto;}
   .section-num{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-light);margin-bottom:.5rem;}
@@ -69,14 +84,14 @@
 
   @media(max-width:900px){
     nav{padding:1rem 1.5rem;}.nav-links{gap:1rem;}.nav-links a{font-size:.7rem;}
-    header,.project-section{padding-left:1.5rem;padding-right:1.5rem;}
+    header,.project-section,.overview-section{padding-left:1.5rem;padding-right:1.5rem;}
     .slide{width:calc(50% - .5rem);}
     .sbtn.prev{left:0;}.sbtn.next{right:0;}
     .mprev{left:-2rem;}.mnext{right:-2rem;}
     footer{padding:1.5rem;flex-direction:column;gap:.5rem;}
     body{cursor:auto;}#cursor,#cursor-ring{display:none;}
   }
-  @media(max-width:600px){.nav-links{display:none;}.slide{width:80%;}}
+  @media(max-width:600px){.nav-links{display:none;}.slide{width:80%;}.overview-head{display:block;}.overview-desc{margin-top:1rem;}}
 
   /* MOBILE MENU */
   .menu-toggle{display:none;width:36px;height:32px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:5px;padding:0;}
@@ -130,130 +145,171 @@
   <a href="index.html" class="back-link transition-link" data-de="← Zurück zur Übersicht" data-en="← Back to Overview">← Zurück zur Übersicht</a>
   <div class="page-label" data-de="Kategorie 05" data-en="Category 05">Kategorie 05</div>
   <h1 class="page-title" data-de="Mediengestaltung" data-en="Media Design">Mediengestaltung</h1>
+  <p class="page-desc" data-de="Corporate Design, Brand Konzepte, Kalender, Plakate und UI Entwürfe. Dieser Bereich zeigt visuelle Gestaltung für Print, digitale Medien und konzeptionelle Projektarbeiten." data-en="Corporate design, brand concepts, calendars, posters and UI drafts. This section shows visual design for print, digital media and conceptual project work.">Corporate Design, Brand Konzepte, Kalender, Plakate und UI Entwürfe. Dieser Bereich zeigt visuelle Gestaltung für Print, digitale Medien und konzeptionelle Projektarbeiten.</p>
 </header>
 
-<div class="project-section fade-in">
+
+<div class="overview-section fade-in">
+  <div class="overview-head">
+    <div>
+      <div class="overview-kicker" data-de="Projektübersicht" data-en="Project Overview">Projektübersicht</div>
+      <h2 class="overview-title" data-de="Designarbeiten im Überblick" data-en="Design Work Overview">Designarbeiten im Überblick</h2>
+    </div>
+    <p class="overview-desc" data-de="Die Projekte sind nach Anwendungsbereich gegliedert. So werden Corporate Design, Game Konzept, Printgestaltung, Illustration und UI Design schneller erfassbar." data-en="The projects are grouped by use case. This makes corporate design, game concept, print design, illustration and UI design easier to scan.">Die Projekte sind nach Anwendungsbereich gegliedert. So werden Corporate Design, Game Konzept, Printgestaltung, Illustration und UI Design schneller erfassbar.</p>
+  </div>
+  <div class="overview-grid">
+    <a class="overview-card" href="#corporal">
+      <div class="overview-num">01</div>
+      <div class="overview-card-title">Corporate Design – Corporal</div>
+      <div class="overview-card-tags">Branding · Geschäftsausstattung · Print</div>
+    </a>
+    <a class="overview-card" href="#holohaven">
+      <div class="overview-num">02</div>
+      <div class="overview-card-title">Holohaven</div>
+      <div class="overview-card-tags">Game Concept · Character Design · Presentation</div>
+    </a>
+    <a class="overview-card" href="#kalender">
+      <div class="overview-num">03</div>
+      <div class="overview-card-title">Kalender 2025</div>
+      <div class="overview-card-tags">Print Design · Layout · Monatsmotive</div>
+    </a>
+    <a class="overview-card" href="#plakate">
+      <div class="overview-num">04</div>
+      <div class="overview-card-title">Plakate & Illustrationen</div>
+      <div class="overview-card-tags">Poster · Cover · Storyboard</div>
+    </a>
+    <a class="overview-card" href="#smafi">
+      <div class="overview-num">05</div>
+      <div class="overview-card-title">SMAFI – Brand & UI Design</div>
+      <div class="overview-card-tags">Branding · UI · App Konzept</div>
+    </a>
+  </div>
+</div>
+
+<div class="project-section fade-in" id="corporal">
   <div class="section-num">01</div>
   <div class="section-title" data-de="Corporate Design – Corporal" data-en="Corporate Design – Corporal">Corporate Design – Corporal</div>
   <div class="section-desc" data-de="Briefbogen, Rechnungen und Visitenkarten im einheitlichen Corporate Design. Entwickelt mit der Adobe Creative Cloud." data-en="Letterheads, invoices and business cards in a consistent corporate design. Developed with Adobe Creative Cloud.">Briefbogen, Rechnungen und Visitenkarten im einheitlichen Corporate Design. Entwickelt mit der Adobe Creative Cloud.</div>
+  <div class="section-tags"><span class="section-tag">Corporate Design</span><span class="section-tag">Print Layout</span><span class="section-tag">Adobe Creative Cloud</span></div>
   <div class="slider-wrap">
     <button class="sbtn prev" onclick="sScroll('corporal',-1)">‹</button>
     <div class="slider" id="slider-corporal">
-      <div class="slide" onclick="openModal('corporal',0)"><img src="media/mediengestaltung/corporal/anna-muster-farbe.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('corporal',1)"><img src="media/mediengestaltung/corporal/anna-muster.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('corporal',2)"><img src="media/mediengestaltung/corporal/briefbogen-farbe.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('corporal',3)"><img src="media/mediengestaltung/corporal/briefbogen.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('corporal',4)"><img src="media/mediengestaltung/corporal/farmer-briefbogen.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('corporal',5)"><img src="media/mediengestaltung/corporal/rechnung-farbe.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('corporal',6)"><img src="media/mediengestaltung/corporal/rechnung-schwarz-weiss.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('corporal',0)"><img src="media/mediengestaltung/corporal/anna-muster-farbe.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('corporal',1)"><img src="media/mediengestaltung/corporal/anna-muster.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('corporal',2)"><img src="media/mediengestaltung/corporal/briefbogen-farbe.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('corporal',3)"><img src="media/mediengestaltung/corporal/briefbogen.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('corporal',4)"><img src="media/mediengestaltung/corporal/farmer-briefbogen.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('corporal',5)"><img src="media/mediengestaltung/corporal/rechnung-farbe.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('corporal',6)"><img src="media/mediengestaltung/corporal/rechnung-schwarz-weiss.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
     </div>
     <button class="sbtn next" onclick="sScroll('corporal',1)">›</button>
   </div>
 </div>
 
-<div class="project-section fade-in">
+<div class="project-section fade-in" id="holohaven">
   <div class="section-num">02</div>
   <div class="section-title">Holohaven</div>
   <div class="section-desc" data-de="Konzept und visuelles Design eines Spielprojekts – Character Design, Level-Konzepte und Präsentationsfolien." data-en="Concept and visual design of a game project – character design, level concepts and presentation slides.">Konzept und visuelles Design eines Spielprojekts – Character Design, Level-Konzepte und Präsentationsfolien.</div>
+  <div class="section-tags"><span class="section-tag">Game Concept</span><span class="section-tag">Character Design</span><span class="section-tag">Presentation</span></div>
   <div class="slider-wrap">
     <button class="sbtn prev" onclick="sScroll('holohaven',-1)">‹</button>
     <div class="slider" id="slider-holohaven">
-      <div class="slide" onclick="openModal('holohaven',0)"><img src="media/mediengestaltung/holohaven/0001.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('holohaven',1)"><img src="media/mediengestaltung/holohaven/0002.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('holohaven',2)"><img src="media/mediengestaltung/holohaven/0003.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('holohaven',3)"><img src="media/mediengestaltung/holohaven/0004.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('holohaven',4)"><img src="media/mediengestaltung/holohaven/0005.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('holohaven',5)"><img src="media/mediengestaltung/holohaven/0006.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('holohaven',6)"><img src="media/mediengestaltung/holohaven/0007.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('holohaven',7)"><img src="media/mediengestaltung/holohaven/0008.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('holohaven',8)"><img src="media/mediengestaltung/holohaven/0009.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('holohaven',9)"><img src="media/mediengestaltung/holohaven/0010.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('holohaven',10)"><img src="media/mediengestaltung/holohaven/0011.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('holohaven',11)"><img src="media/mediengestaltung/holohaven/0012.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('holohaven',12)"><img src="media/mediengestaltung/holohaven/0013.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('holohaven',13)"><img src="media/mediengestaltung/holohaven/0014.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('holohaven',14)"><img src="media/mediengestaltung/holohaven/0015.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('holohaven',15)"><img src="media/mediengestaltung/holohaven/0016.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('holohaven',16)"><img src="media/mediengestaltung/holohaven/0017.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('holohaven',0)"><img src="media/mediengestaltung/holohaven/0001.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('holohaven',1)"><img src="media/mediengestaltung/holohaven/0002.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('holohaven',2)"><img src="media/mediengestaltung/holohaven/0003.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('holohaven',3)"><img src="media/mediengestaltung/holohaven/0004.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('holohaven',4)"><img src="media/mediengestaltung/holohaven/0005.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('holohaven',5)"><img src="media/mediengestaltung/holohaven/0006.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('holohaven',6)"><img src="media/mediengestaltung/holohaven/0007.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('holohaven',7)"><img src="media/mediengestaltung/holohaven/0008.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('holohaven',8)"><img src="media/mediengestaltung/holohaven/0009.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('holohaven',9)"><img src="media/mediengestaltung/holohaven/0010.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('holohaven',10)"><img src="media/mediengestaltung/holohaven/0011.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('holohaven',11)"><img src="media/mediengestaltung/holohaven/0012.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('holohaven',12)"><img src="media/mediengestaltung/holohaven/0013.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('holohaven',13)"><img src="media/mediengestaltung/holohaven/0014.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('holohaven',14)"><img src="media/mediengestaltung/holohaven/0015.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('holohaven',15)"><img src="media/mediengestaltung/holohaven/0016.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('holohaven',16)"><img src="media/mediengestaltung/holohaven/0017.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
     </div>
     <button class="sbtn next" onclick="sScroll('holohaven',1)">›</button>
   </div>
 </div>
 
-<div class="project-section fade-in">
+<div class="project-section fade-in" id="kalender">
   <div class="section-num">03</div>
   <div class="section-title" data-de="Kalender 2025" data-en="Calendar 2025">Kalender 2025</div>
   <div class="section-desc" data-de="Ein zwölfmonatiger Kalender im russisch-deutschen Stil – gestaltet mit Adobe Illustrator und Photoshop." data-en="A twelve-month calendar in a Russian-German style – designed with Adobe Illustrator and Photoshop.">Ein zwölfmonatiger Kalender im russisch-deutschen Stil – gestaltet mit Adobe Illustrator und Photoshop.</div>
   <div class="slider-wrap">
     <button class="sbtn prev" onclick="sScroll('kalender',-1)">‹</button>
     <div class="slider" id="slider-kalender">
-      <div class="slide" onclick="openModal('kalender',0)"><img src="media/mediengestaltung/kalender/0001.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('kalender',1)"><img src="media/mediengestaltung/kalender/0002.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('kalender',2)"><img src="media/mediengestaltung/kalender/0003.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('kalender',3)"><img src="media/mediengestaltung/kalender/0004.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('kalender',4)"><img src="media/mediengestaltung/kalender/0005.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('kalender',5)"><img src="media/mediengestaltung/kalender/0006.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('kalender',6)"><img src="media/mediengestaltung/kalender/0007.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('kalender',7)"><img src="media/mediengestaltung/kalender/0008.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('kalender',8)"><img src="media/mediengestaltung/kalender/0009.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('kalender',9)"><img src="media/mediengestaltung/kalender/0010.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('kalender',10)"><img src="media/mediengestaltung/kalender/0011.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('kalender',11)"><img src="media/mediengestaltung/kalender/0012.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('kalender',12)"><img src="media/mediengestaltung/kalender/0013.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('kalender',0)"><img src="media/mediengestaltung/kalender/0001.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('kalender',1)"><img src="media/mediengestaltung/kalender/0002.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('kalender',2)"><img src="media/mediengestaltung/kalender/0003.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('kalender',3)"><img src="media/mediengestaltung/kalender/0004.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('kalender',4)"><img src="media/mediengestaltung/kalender/0005.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('kalender',5)"><img src="media/mediengestaltung/kalender/0006.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('kalender',6)"><img src="media/mediengestaltung/kalender/0007.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('kalender',7)"><img src="media/mediengestaltung/kalender/0008.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('kalender',8)"><img src="media/mediengestaltung/kalender/0009.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('kalender',9)"><img src="media/mediengestaltung/kalender/0010.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('kalender',10)"><img src="media/mediengestaltung/kalender/0011.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('kalender',11)"><img src="media/mediengestaltung/kalender/0012.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('kalender',12)"><img src="media/mediengestaltung/kalender/0013.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
     </div>
     <button class="sbtn next" onclick="sScroll('kalender',1)">›</button>
   </div>
 </div>
 
-<div class="project-section fade-in">
+<div class="project-section fade-in" id="plakate">
   <div class="section-num">04</div>
   <div class="section-title" data-de="Plakate & Illustrationen" data-en="Posters & Illustrations">Plakate & Illustrationen</div>
   <div class="section-desc" data-de="Plakate, Buchcover, Storyboards und digitale Illustrationen aus dem Studium an der TH Lübeck." data-en="Posters, book covers, storyboards and digital illustrations from my studies at TH Lübeck.">Plakate, Buchcover, Storyboards und digitale Illustrationen aus dem Studium an der TH Lübeck.</div>
   <div class="slider-wrap">
     <button class="sbtn prev" onclick="sScroll('plakate',-1)">‹</button>
     <div class="slider" id="slider-plakate">
-      <div class="slide" onclick="openModal('plakate',0)"><img src="media/mediengestaltung/plakate/0001.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('plakate',1)"><img src="media/mediengestaltung/plakate/0002.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('plakate',2)"><img src="media/mediengestaltung/plakate/buchcover-fertig.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('plakate',3)"><img src="media/mediengestaltung/plakate/plakat.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('plakate',4)"><img src="media/mediengestaltung/plakate/storyboard1.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('plakate',5)"><img src="media/mediengestaltung/plakate/storyboard2.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('plakate',0)"><img src="media/mediengestaltung/plakate/0001.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('plakate',1)"><img src="media/mediengestaltung/plakate/0002.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('plakate',2)"><img src="media/mediengestaltung/plakate/buchcover-fertig.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('plakate',3)"><img src="media/mediengestaltung/plakate/plakat.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('plakate',4)"><img src="media/mediengestaltung/plakate/storyboard1.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('plakate',5)"><img src="media/mediengestaltung/plakate/storyboard2.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
     </div>
     <button class="sbtn next" onclick="sScroll('plakate',1)">›</button>
   </div>
 </div>
 
-<div class="project-section fade-in">
+<div class="project-section fade-in" id="smafi">
   <div class="section-num">05</div>
   <div class="section-title" data-de="SMAFI – Brand & UI Design" data-en="SMAFI – Brand & UI Design">SMAFI – Brand & UI Design</div>
   <div class="section-desc" data-de="Konzept und Gestaltung einer digitalen Markenidentität – UI-Screens, Designsystem und Präsentation." data-en="Concept and design of a digital brand identity – UI screens, design system and presentation.">Konzept und Gestaltung einer digitalen Markenidentität – UI-Screens, Designsystem und Präsentation.</div>
   <div class="slider-wrap">
     <button class="sbtn prev" onclick="sScroll('smafi',-1)">‹</button>
     <div class="slider" id="slider-smafi">
-      <div class="slide" onclick="openModal('smafi',0)"><img src="media/mediengestaltung/smafi/0001.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',1)"><img src="media/mediengestaltung/smafi/0002.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',2)"><img src="media/mediengestaltung/smafi/0003.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',3)"><img src="media/mediengestaltung/smafi/0005.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',4)"><img src="media/mediengestaltung/smafi/0006.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',5)"><img src="media/mediengestaltung/smafi/0007.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',6)"><img src="media/mediengestaltung/smafi/0008.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',7)"><img src="media/mediengestaltung/smafi/0009.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',8)"><img src="media/mediengestaltung/smafi/0010.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',9)"><img src="media/mediengestaltung/smafi/0011.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',10)"><img src="media/mediengestaltung/smafi/0012.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',11)"><img src="media/mediengestaltung/smafi/0013.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',12)"><img src="media/mediengestaltung/smafi/0014.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',13)"><img src="media/mediengestaltung/smafi/0015.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',14)"><img src="media/mediengestaltung/smafi/0016.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',15)"><img src="media/mediengestaltung/smafi/0017.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',16)"><img src="media/mediengestaltung/smafi/0018.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',17)"><img src="media/mediengestaltung/smafi/0019.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',18)"><img src="media/mediengestaltung/smafi/0020.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',19)"><img src="media/mediengestaltung/smafi/0021.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',20)"><img src="media/mediengestaltung/smafi/0022.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',21)"><img src="media/mediengestaltung/smafi/0023.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',22)"><img src="media/mediengestaltung/smafi/0024.jpg" alt=""/></div>
-      <div class="slide" onclick="openModal('smafi',23)"><img src="media/mediengestaltung/smafi/00045.jpg" alt=""/></div>
+      <div class="slide" onclick="openModal('smafi',0)"><img src="media/mediengestaltung/smafi/0001.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',1)"><img src="media/mediengestaltung/smafi/0002.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',2)"><img src="media/mediengestaltung/smafi/0003.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',3)"><img src="media/mediengestaltung/smafi/0005.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',4)"><img src="media/mediengestaltung/smafi/0006.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',5)"><img src="media/mediengestaltung/smafi/0007.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',6)"><img src="media/mediengestaltung/smafi/0008.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',7)"><img src="media/mediengestaltung/smafi/0009.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',8)"><img src="media/mediengestaltung/smafi/0010.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',9)"><img src="media/mediengestaltung/smafi/0011.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',10)"><img src="media/mediengestaltung/smafi/0012.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',11)"><img src="media/mediengestaltung/smafi/0013.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',12)"><img src="media/mediengestaltung/smafi/0014.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',13)"><img src="media/mediengestaltung/smafi/0015.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',14)"><img src="media/mediengestaltung/smafi/0016.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',15)"><img src="media/mediengestaltung/smafi/0017.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',16)"><img src="media/mediengestaltung/smafi/0018.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',17)"><img src="media/mediengestaltung/smafi/0019.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',18)"><img src="media/mediengestaltung/smafi/0020.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',19)"><img src="media/mediengestaltung/smafi/0021.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',20)"><img src="media/mediengestaltung/smafi/0022.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',21)"><img src="media/mediengestaltung/smafi/0023.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',22)"><img src="media/mediengestaltung/smafi/0024.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
+      <div class="slide" onclick="openModal('smafi',23)"><img src="media/mediengestaltung/smafi/00045.jpg" alt="Mediengestaltung Projektbild" loading="lazy"/></div>
     </div>
     <button class="sbtn next" onclick="sScroll('smafi',1)">›</button>
   </div>
