@@ -49,11 +49,15 @@
   .intro-right p+p{margin-top:1rem;}
 
   main{position:relative;z-index:1;padding:5rem 4rem;max-width:1400px;margin:0 auto;}
-  .gallery{columns:3;gap:.8rem;}
-  .gitem{break-inside:avoid;margin-bottom:.8rem;overflow:hidden;cursor:pointer;position:relative;border:1px solid var(--border);transition:border-color .3s,box-shadow .3s;}
-  .gitem:hover{border-color:var(--accent);box-shadow:0 8px 30px rgba(109,40,217,.25);}
-  .gitem img{width:100%;display:block;transition:transform .4s,filter .4s;}
-  .gitem:hover img{transform:scale(1.05);filter:brightness(.75);}
+  .video-head{margin-bottom:2.2rem;display:flex;justify-content:space-between;gap:2rem;align-items:flex-end;}
+  .video-kicker{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-light);margin-bottom:.8rem;}
+  .video-title{font-size:clamp(1.7rem,4vw,2.7rem);font-weight:700;letter-spacing:-.02em;}
+  .video-desc{color:#aaa;font-size:.9rem;line-height:1.75;max-width:560px;}
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;align-items:start;}
+  .gitem{aspect-ratio:16/9;overflow:hidden;cursor:pointer;position:relative;border:1px solid var(--border);background:var(--bg2);transition:border-color .3s,box-shadow .3s,transform .3s;}
+  .gitem:hover{border-color:var(--accent);box-shadow:0 8px 30px rgba(109,40,217,.25);transform:translateY(-3px);}
+  .gitem img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s,filter .4s;}
+  .gitem:hover img{transform:scale(1.04);filter:brightness(.75);}
   .overlay{position:absolute;inset:0;background:rgba(109,40,217,.1);opacity:0;transition:opacity .3s;display:flex;align-items:center;justify-content:center;pointer-events:none;}
   .gitem:hover .overlay{opacity:1;}
   .overlay-icon{width:44px;height:44px;border-radius:50%;background:rgba(109,40,217,.85);display:flex;align-items:center;justify-content:center;border:2px solid var(--accent-light);}
@@ -71,14 +75,14 @@
   .fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
   .fade-in.visible{opacity:1;transform:translateY(0);}
 
-  @media(max-width:1100px){.gallery{columns:2;}.intro{grid-template-columns:1fr;gap:2rem;}}
+  @media(max-width:1100px){.gallery{grid-template-columns:repeat(auto-fill,minmax(260px,1fr));}.intro{grid-template-columns:1fr;gap:2rem;}}
   @media(max-width:900px){
     nav{padding:1rem 1.5rem;}.nav-links{gap:1rem;}.nav-links a{font-size:.7rem;}
     header,.intro,main{padding-left:1.5rem;padding-right:1.5rem;}
     footer{padding:1.5rem;flex-direction:column;gap:.5rem;}
     body{cursor:auto;}#cursor,#cursor-ring{display:none;}
   }
-  @media(max-width:600px){.nav-links{display:none;}.gallery{columns:1;}}
+  @media(max-width:600px){.nav-links{display:none;}.gallery{grid-template-columns:1fr;}.video-head{display:block;}.video-desc{margin-top:1rem;}}
 
   /* MOBILE MENU */
   .menu-toggle{display:none;width:36px;height:32px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:5px;padding:0;}
@@ -149,34 +153,41 @@
 </div>
 
 <main>
+  <div class="video-head fade-in">
+    <div>
+      <div class="video-kicker" data-de="Video Portfolio" data-en="Video Portfolio">Video Portfolio</div>
+      <h2 class="video-title" data-de="E-Learning Produktionen" data-en="E-Learning Productions">E-Learning Produktionen</h2>
+    </div>
+    <p class="video-desc" data-de="Auswahl animierter Lern- und Prüfungsvideos für Plakos Akademie und Prüfungstipps. Klick auf ein Thumbnail öffnet das Video direkt im Player." data-en="Selection of animated learning and exam videos for Plakos Akademie and Prüfungstipps. Click a thumbnail to open the video directly in the player.">Auswahl animierter Lern- und Prüfungsvideos für Plakos Akademie und Prüfungstipps. Klick auf ein Thumbnail öffnet das Video direkt im Player.</p>
+  </div>
   <div class="gallery fade-in">
-    <div class="gitem" onclick="openModal('https://youtu.be/IKAmKYNyuBw')"><img src="media/elearning/12.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/RFjAtAHhOgI')"><img src="media/elearning/14.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/nRSnDZe1bA8')"><img src="media/elearning/15.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/771Tr2Pd9CU')"><img src="media/elearning/18.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/WrEfnq3ttYQ')"><img src="media/elearning/21.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/wgJQPCy3kd0')"><img src="media/elearning/25.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/2oHHHOWkwjc')"><img src="media/elearning/26.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/G7nNM_auVd0')"><img src="media/elearning/28.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/lpkXfztdXBM')"><img src="media/elearning/164.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/ZDUL7uhFtIA')"><img src="media/elearning/165.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/npz4b4VtXqo')"><img src="media/elearning/168.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/ZY3pV1s6s2w')"><img src="media/elearning/169.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/ZY3pV1s6s2w')"><img src="media/elearning/171.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/QHNn8qAmrVw')"><img src="media/elearning/172.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/lCmbg0m3dmk')"><img src="media/elearning/176.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/VRogx5u1M7g')"><img src="media/elearning/177.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/vwtc7RxK2AU')"><img src="media/elearning/179.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/4LXsRra6QJc')"><img src="media/elearning/182.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/9xw4-uDRqwY')"><img src="media/elearning/184.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/5x9mYlyqAmQ')"><img src="media/elearning/186.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/mo6q4Jjnqc0')"><img src="media/elearning/188.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/HaxbkNYKZrU')"><img src="media/elearning/190.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/aGzzs2iGhKs')"><img src="media/elearning/191.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/ldSZNxWTpGM')"><img src="media/elearning/192.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/dMzhL5mfRRg')"><img src="media/elearning/195.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/Z-hNh0pBXpQ')"><img src="media/elearning/197.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
-    <div class="gitem" onclick="openModal('https://youtu.be/FgTCgElrCII')"><img src="media/elearning/200.jpg" alt=""/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/IKAmKYNyuBw')"><img src="media/elearning/12.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/RFjAtAHhOgI')"><img src="media/elearning/14.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/nRSnDZe1bA8')"><img src="media/elearning/15.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/771Tr2Pd9CU')"><img src="media/elearning/18.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/WrEfnq3ttYQ')"><img src="media/elearning/21.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/wgJQPCy3kd0')"><img src="media/elearning/25.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/2oHHHOWkwjc')"><img src="media/elearning/26.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/G7nNM_auVd0')"><img src="media/elearning/28.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/lpkXfztdXBM')"><img src="media/elearning/164.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/ZDUL7uhFtIA')"><img src="media/elearning/165.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/npz4b4VtXqo')"><img src="media/elearning/168.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/ZY3pV1s6s2w')"><img src="media/elearning/169.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/ZY3pV1s6s2w')"><img src="media/elearning/171.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/QHNn8qAmrVw')"><img src="media/elearning/172.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/lCmbg0m3dmk')"><img src="media/elearning/176.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/VRogx5u1M7g')"><img src="media/elearning/177.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/vwtc7RxK2AU')"><img src="media/elearning/179.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/4LXsRra6QJc')"><img src="media/elearning/182.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/9xw4-uDRqwY')"><img src="media/elearning/184.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/5x9mYlyqAmQ')"><img src="media/elearning/186.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/mo6q4Jjnqc0')"><img src="media/elearning/188.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/HaxbkNYKZrU')"><img src="media/elearning/190.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/aGzzs2iGhKs')"><img src="media/elearning/191.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/ldSZNxWTpGM')"><img src="media/elearning/192.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/dMzhL5mfRRg')"><img src="media/elearning/195.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/Z-hNh0pBXpQ')"><img src="media/elearning/197.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+    <div class="gitem" onclick="openModal('https://youtu.be/FgTCgElrCII')"><img src="media/elearning/200.jpg" alt="E-Learning Video Thumbnail" loading="lazy"/><div class="overlay"><div class="overlay-icon"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
   </div>
 </main>
 
